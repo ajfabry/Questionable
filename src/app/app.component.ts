@@ -39,7 +39,6 @@ export class AppComponent {
       this.splashScreen.hide();
 
       firebase.initializeApp(firebaseConfig);
-
     });
   }
 }
