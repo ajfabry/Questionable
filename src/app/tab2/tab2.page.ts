@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+//import { AppService } from '../app.service';
 
 @Component({
   selector: 'app-tab2',
@@ -6,7 +8,21 @@ import { Component } from '@angular/core';
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page {
+  username;
+  numPosts;
 
-  constructor() {}
+  constructor(
+    private router: Router
+    //private service: AppService
+  ) {}
 
+  ngOnInit() {
+    this.username = "Hu";
+    this.numPosts = 20;
+  }
+
+  message() {
+    console.log("Message " + this.username);
+    this.router.navigate(["/answer-question"])
+  }
 }
