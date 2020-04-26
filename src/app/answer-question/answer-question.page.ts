@@ -9,7 +9,7 @@ import { Router,ActivatedRoute} from '@angular/router';
 export class AnswerQuestionPage implements OnInit {
   question:any;
   answer="";
-  followup=""
+  followup="";
 
   constructor(
     private route: ActivatedRoute,
