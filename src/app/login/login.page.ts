@@ -69,7 +69,7 @@ login(item){
         // firebase.auth().currentUser
         // self.router.navigate(["/login"]);
         //this.service.logged(1);
-        self.router.navigate(["../tabs/tab1"]);
+        self.router.navigate(["../tabs/home"]);
     });
   }
 
