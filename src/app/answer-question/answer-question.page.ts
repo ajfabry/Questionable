@@ -25,6 +25,8 @@ export class AnswerQuestionPage implements OnInit {
 
   submit() {}
 
-  cancel() {}
+  cancel() {
+    this.router.navigate(['/question',this.question]);
+  }
 
 }
