@@ -25,4 +25,8 @@ export class QuestionPage implements OnInit {
     )
   }
 
+  goToAnswerQuestion(question) {
+    this.router.navigate(["/answer-question", question]);
+  }
+
 }

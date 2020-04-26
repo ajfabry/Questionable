@@ -11,5 +11,5 @@
   <ion-item>
     <ion-label>{{ currentQuestion.question }}</ion-label>
   </ion-item>
-  <ion-button expand="block">Answer This Question</ion-button>
+  <ion-button expand="block" (click)="goToAnswerQuestion(currentQuestion)">Answer This Question</ion-button>
 </ion-content>
