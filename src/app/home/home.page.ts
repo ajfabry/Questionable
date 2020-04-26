@@ -14,15 +14,19 @@ export class HomePage implements OnInit {
   constructor(
     public router: Router,
     public service: Service
-  ) 
-  { 
-    this.service.getObservable().subscribe(data => {
-      this.questions = this.service.questions;
-    });
-  }
+  ) {}
 
   ngOnInit() {
-    this.questions = this.service.questions;
+    var self = this;
+
+    this.service.db.collection("questions").onSnapshot(function(querySnapshot) {
+        self.questions = [];
+        querySnapshot.forEach(function(doc) {
+            var item = doc.data();
+            self.questions.push({question:item.question, id: doc.ref.id, path: doc.ref.path});
+        });
+        this.questions = self.questions;
+    });
   }
 
   goToQuestion(question) {

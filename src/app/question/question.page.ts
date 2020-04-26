@@ -20,7 +20,6 @@ export class QuestionPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    
     this.route.params.subscribe(
       question => {
         this.currentQuestion = question;
