@@ -13,7 +13,7 @@
   </ion-item>
   <ion-list>
     <ion-item *ngFor="let question of questions">
-      <div class="voting">
+      <div class="voting" slot="start">
         <ion-icon name="arrow-up-outline" (click)="updateVote(question, 1)">Upvote</ion-icon>
         <h4 align="center">{{ question.votes }}</h4>
         <ion-icon name="arrow-down-outline" (click)="updateVote(question, -1)">Upvote</ion-icon>
