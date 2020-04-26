@@ -23,7 +23,7 @@ export class LoginPage implements OnInit {
 
   constructor(
     private router: Router,
- 	 public formBuilder: FormBuilder
+ 	  public formBuilder: FormBuilder
  	     //public service: AppService
   ) { }
 
