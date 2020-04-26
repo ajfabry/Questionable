@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Login</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="signup()">
+        Signup      
+      </ion-button>
+    </ion-buttons>  
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+
+
+  <form [formGroup]="new_item_form" (submit)="login(new_item_form.value)">
+      <ion-item>
+        <ion-label color="primary" position="floating">email</ion-label>
+        <ion-input type="text" formControlName="email" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary" position="floating">password</ion-label>
+        <ion-input type="text" formControlName="password" required></ion-input>
+      </ion-item>
+  
+      <ion-button class="submit-btn" expand="block" type="submit" [disabled]="!new_item_form.valid">Login</ion-button>
+    </form>
+  </ion-content>

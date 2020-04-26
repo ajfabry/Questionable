@@ -29,4 +29,7 @@ export class HomePage implements OnInit {
     this.router.navigate(["/question", question]);
   }
 
+  login() {
+    this.router.navigate(["/login"]);
+  }
 }
