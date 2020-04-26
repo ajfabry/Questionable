@@ -12,4 +12,10 @@
     <ion-label>{{ currentQuestion.question }}</ion-label>
   </ion-item>
   <ion-button expand="block" (click)="goToAnswerQuestion(currentQuestion)">Answer This Question</ion-button>
+  <ion-list>
+    <ion-item class="ion-text-wrap" *ngFor="let answer of answers" (click)="goToQuestion(answer)">
+      <ion-item>{{ answer.answer }}</ion-item><br>
+      <ion-item>{{ answer.question }}</ion-item>
+    </ion-item>
+  </ion-list>
 </ion-content>

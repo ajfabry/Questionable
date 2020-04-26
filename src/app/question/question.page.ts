@@ -10,12 +10,16 @@ import { Service } from '../question.service';
 export class QuestionPage implements OnInit {
 
   currentQuestion: any;
+  answers: Array<any>;
 
-  constructor(
+  constructor (
     private route: ActivatedRoute,
     public service: Service,
     public router: Router
-  ) { }
+  ) 
+  {
+
+  }
 
   ngOnInit() {
     this.route.params.subscribe(
@@ -23,10 +27,29 @@ export class QuestionPage implements OnInit {
         this.currentQuestion = question;
       }
     )
+
+    var self = this;
+    this.service.db.collection("questions").doc(this.currentQuestion.id).collection("answers").get()
+    .then(querySnapshot => {
+      self.answers = [];
+      querySnapshot.forEach(doc => {
+        var item = doc.data();
+        console.log(item);
+        self.answers.push({answer: item.answer, question: item.question, id: doc.ref.id});
+      });
+      this.answers = self.answers;
+    });
   }
 
   goToAnswerQuestion(question) {
     this.router.navigate(["/answer-question", question]);
+  }
+
+  goToQuestion(question) {
+    console.log(this.service.ref.toString());
+    // console.log(firebase.firestore.DocumentReference<Array<any>>(question));
+    this.router.navigate(["/question", question]);
+    this.ngOnInit();
   }
 
 }
