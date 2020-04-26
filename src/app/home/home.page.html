@@ -8,10 +8,12 @@
 </ion-header>
 
 <ion-content>
-  <h1>Here you'll see all the questions that other users have posted.</h1>
+  <ion-item>
+    <h1 align="center">Here you'll see all the questions that other users have posted.</h1>
+  </ion-item>
   <ion-list>
     <ion-item *ngFor="let question of questions" (click)="goToQuestion(question)">
-      <ion-label>{{ question.question }}</ion-label>
+      <h4>{{ question.question }}</h4>
     </ion-item>
   </ion-list>
 </ion-content>

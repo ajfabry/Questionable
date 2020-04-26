@@ -22,21 +22,5 @@ export class Service
         return this.eventSubject;
     }
 
-    constructor() {
-        var self = this;
-
-        this.db.collection("questions").onSnapshot(function(querySnapshot) {
-            self.questions = [];
-            querySnapshot.forEach(function(doc) {
-                var item = doc.data();
-                self.questions.push({question:item.question, id: doc.ref.id, path: doc.ref.path});
-            });
-
-            self.publishEvent({
-                Message: "Questions Loaded"
-            });
-
-            this.questions = self.questions;
-        });
-    }
+    constructor() {}
 }
