@@ -29,7 +29,7 @@ export class Service
             self.questions = [];
             querySnapshot.forEach(function(doc) {
                 var item = doc.data();
-                self.questions.push({question:item.question, id: doc.ref.id});
+                self.questions.push({question:item.question, id: doc.ref.id, path: doc.ref.path});
             });
 
             self.publishEvent({
