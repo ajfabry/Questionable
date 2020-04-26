@@ -36,7 +36,7 @@ export class LoginPage implements OnInit {
 }
 
 signup() {
-
+  this.router.navigate(['/signup']);
 }
 
 login(item){
@@ -73,25 +73,4 @@ login(item){
     });
   }
 
-  loginGoogle() {}
-  /*
-  loginGoogle(){
-    var self=this;
-    console.log("google login")
-    // Using a popup.
-    var provider = new firebase.auth.GoogleAuthProvider();
-    provider.addScope('profile');
-    provider.addScope('email');
-    firebase.auth().signInWithPopup(provider).then(function(result) {
-    // This gives you a Google Access Token.
-    var token = result.credential.providerId;
-    // The signed-in user info.
-    var user = result.user;
-    console.log(user);
-    console.log("login succeeded")
-    //this.service.logged(1);
-    self.router.navigate(["../tabs/tab1"]);
-    });
-  }
-  */
 }

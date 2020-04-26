@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Signup</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-item>
+    <ion-label color="primary" position="floating">email</ion-label>
+    <ion-input type="text" [(ngModel)]="user.email" required></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label color="primary" position="floating">username</ion-label>
+    <ion-input type="text" [(ngModel)]="username" required></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label color="primary" position="floating">password</ion-label>
+    <ion-input type="text" placeholder="Needs to be at least 6 characters" [(ngModel)]="user.password" required></ion-input>
+  </ion-item>
+  <ion-button class="submit-btn" expand="block" type="submit" (click)="signup()">Sign up</ion-button>
+  
+  </ion-content>
