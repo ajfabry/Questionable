@@ -9,13 +9,19 @@
 
 <ion-content>
   <ion-item>
-    <ion-label>{{ currentQuestion.question }}</ion-label>
+    <h1 text-wrap>{{ currentQuestion.question }}</h1>
   </ion-item>
   <ion-button expand="block" (click)="goToAnswerQuestion(currentQuestion)">Answer This Question</ion-button>
   <ion-list>
-    <ion-item class="ion-text-wrap" *ngFor="let answer of answers" (click)="goToQuestion(answer)">
-      <ion-item>{{ answer.answer }}</ion-item><br>
-      <ion-item>{{ answer.question }}</ion-item>
+    <ion-item *ngFor="let answer of answers" (click)="goToQuestion(answer)">
+      <ion-label>
+        <h4 class="ion-text-wrap" color="grey">
+          {{ answer.answer }}
+        </h4>
+        <h3 class="ion-text-wrap">
+          <b>{{ answer.question }}</b>
+        </h3>
+      </ion-label>
     </ion-item>
   </ion-list>
 </ion-content>
