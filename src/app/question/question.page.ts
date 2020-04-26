@@ -11,15 +11,13 @@ export class QuestionPage implements OnInit {
 
   currentQuestion: any;
   answers: Array<any>;
+  docRef: any;
 
   constructor (
     private route: ActivatedRoute,
     public service: Service,
     public router: Router
-  ) 
-  {
-
-  }
+  ) {}
 
   ngOnInit() {
     
@@ -28,9 +26,11 @@ export class QuestionPage implements OnInit {
         this.currentQuestion = question;
       }
     )
+
+    this.docRef = this.service.db.doc(this.currentQuestion.path);
       
     var self = this;
-    this.service.db.collection("questions").doc(this.currentQuestion.id).collection("answers").get()
+    this.docRef.collection("answers").get()
     .then(querySnapshot => {
       self.answers = [];
       querySnapshot.forEach(doc => {
@@ -46,10 +46,7 @@ export class QuestionPage implements OnInit {
   }
 
   goToQuestion(question) {
-    // console.log(this.service.ref.toString());
-    // console.log(firebase.firestore.DocumentReference<Array<any>>(question));
     this.router.navigate(["/question", question]);
-    this.ngOnInit();
   }
 
 }
