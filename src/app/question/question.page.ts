@@ -22,20 +22,20 @@ export class QuestionPage implements OnInit {
   }
 
   ngOnInit() {
+    
     this.route.params.subscribe(
       question => {
         this.currentQuestion = question;
       }
     )
-
+      
     var self = this;
     this.service.db.collection("questions").doc(this.currentQuestion.id).collection("answers").get()
     .then(querySnapshot => {
       self.answers = [];
       querySnapshot.forEach(doc => {
         var item = doc.data();
-        console.log(item);
-        self.answers.push({answer: item.answer, question: item.question, id: doc.ref.id});
+        self.answers.push({answer: item.answer, question: item.question, id: doc.ref.id, path: doc.ref.path});
       });
       this.answers = self.answers;
     });
@@ -46,7 +46,7 @@ export class QuestionPage implements OnInit {
   }
 
   goToQuestion(question) {
-    console.log(this.service.ref.toString());
+    // console.log(this.service.ref.toString());
     // console.log(firebase.firestore.DocumentReference<Array<any>>(question));
     this.router.navigate(["/question", question]);
     this.ngOnInit();
