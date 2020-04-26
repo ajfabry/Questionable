@@ -24,8 +24,7 @@ var firebaseConfig = {
 })
 export class AppComponent {
 
-
-  constructor(
+  constructor (
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar
@@ -37,6 +36,8 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+
+      firebase.initializeApp(firebaseConfig);
     });
   }
 }
