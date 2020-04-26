@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Service } from '../question.service';
+import * as firebase from 'firebase';
+import { AngularFireObject } from 'angularfire2/database';
+import { sum, values } from 'lodash';
 
 @Component({
   selector: 'app-home',
@@ -23,7 +26,16 @@ export class HomePage implements OnInit {
         self.questions = [];
         querySnapshot.forEach(function(doc) {
             var item = doc.data();
-            self.questions.push({question:item.question, id: doc.ref.id, path: doc.ref.path});
+            
+            var question = {question: item.question, votes: 0, id: doc.ref.id, path: doc.ref.path};
+            
+            var voteCount = 0;
+            self.getQuestionVotes(question).onSnapshot(upvotes => {
+              voteCount = sum(values(upvotes.data()));
+              question.votes = voteCount;
+            });
+
+            self.questions.push(question);
         });
         this.questions = self.questions;
     });
@@ -35,5 +47,15 @@ export class HomePage implements OnInit {
 
   login() {
     this.router.navigate(["/login"]);
+  }
+
+  getQuestionVotes(question) {
+    return this.service.db.doc(question.path).collection("votes").doc("votes");
+  }
+
+  updateVote(question, vote) {
+    let data = {};
+    data[firebase.auth().currentUser.uid] = vote;
+    this.service.db.doc(question.path).collection("votes").doc("votes").update(data);
   }
 }
