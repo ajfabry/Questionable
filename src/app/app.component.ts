@@ -24,8 +24,7 @@ var firebaseConfig = {
 })
 export class AppComponent {
 
-
-  constructor(
+  constructor (
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar
