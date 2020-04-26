@@ -9,7 +9,11 @@ const routes: Routes = [
   {
     path: 'question',
     loadChildren: () => import('./question/question.module').then( m => m.QuestionPageModule)
+  },  {
+    path: 'dm-menu',
+    loadChildren: () => import('./dm-menu/dm-menu.module').then( m => m.DmMenuPageModule)
   }
+
 ];
 @NgModule({
   imports: [
