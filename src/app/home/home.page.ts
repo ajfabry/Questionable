@@ -25,4 +25,8 @@ export class HomePage implements OnInit {
     this.questions = this.service.questions;
   }
 
+  goToQuestion(question) {
+    this.router.navigate(["/question", question]);
+  }
+
 }
