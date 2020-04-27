@@ -22,16 +22,30 @@ export class HomePage implements OnInit {
     var self = this;
 
     this.service.db.collection("questions").onSnapshot(function(querySnapshot) {
-        self.questions = [];
-        querySnapshot.forEach(function(doc) {
-            var item = doc.data();
-            
-            var question = {question: item.question, votes: 0, id: doc.ref.id, path: doc.ref.path};
+      self.questions = [];
+      var numQuestions = 0;
+      querySnapshot.forEach(function(doc) {
+        numQuestions++;
+        var item = doc.data();
+        
+        var question = {question: item.question, votes: 0, id: doc.ref.id, path: doc.ref.path};
 
-            self.questions.push(question);
+        self.getQuestionVotes(question).get().then(upvotes => {
+          question.votes = sum(values(upvotes.data()));
+          self.questions.push(question);
+          if (self.questions.length == numQuestions) {
+            self.sortQuestions();
+          }
         });
-        this.questions = self.questions;
+      });
+      this.questions = self.questions;
     });
+  }
+
+  sortQuestions() {
+    this.questions.sort(function(a,b)  { 
+      return b.votes - a.votes;
+     });
   }
 
   goToQuestion(question) {
