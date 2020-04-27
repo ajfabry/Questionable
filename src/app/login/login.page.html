@@ -14,9 +14,7 @@
 
 <ion-content padding>
 
-
-
-  <form [formGroup]="new_item_form" (submit)="login(new_item_form.value)">
+    <form [formGroup]="new_item_form" (submit)="login(new_item_form.value)">
       <ion-item>
         <ion-label color="primary" position="floating">email</ion-label>
         <ion-input type="text" formControlName="email" required></ion-input>
@@ -28,4 +26,7 @@
   
       <ion-button class="submit-btn" expand="block" type="submit" [disabled]="!new_item_form.valid">Login</ion-button>
     </form>
+
+    <ion-button expand="block" color="secondary" (click)="guestLogin()">Proceed as guest</ion-button>
+
   </ion-content>

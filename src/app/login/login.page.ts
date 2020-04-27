@@ -24,53 +24,45 @@ export class LoginPage implements OnInit {
   constructor(
     private router: Router,
  	  public formBuilder: FormBuilder
- 	     //public service: AppService
   ) { }
 
   ngOnInit() {
-
     this.new_item_form = this.formBuilder.group({
       email: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required)
-});
-}
+    });
+  }
 
-signup() {
-  this.router.navigate(['/signup']);
-}
+  signup() {
+    this.router.navigate(['/signup']);
+  }
 
-login(item){
-  console.log(item.email+"   "+item.password)
-  var self=this;
-  var email=item.email;
-  var password=item.password;
+  login(item) {
+    var self=this;
+    var email=item.email;
+    var password=item.password;
 
-  firebase.auth().signOut();
+    firebase.auth().signOut();
 
+    firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      console.log(errorCode);
 
-  firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-    // Handle Errors here.
-    var errorCode = error.code;
-    var errorMessage = error.message;
-    console.log(errorCode);
-
-    if (errorCode === 'auth/wrong-password') {
-            alert('Wrong password.');
-          } else if (errorCode === 'auth/user-not-found'){
-            alert("User does not exist");
-          }
-          console.log(error);
-    }
-    ).then(function(result){
-    var user= firebase.auth().currentUser;
-        console.log("login succeeded");
-        console.log(user.uid);
-
-        // firebase.auth().currentUser
-        // self.router.navigate(["/login"]);
-        //this.service.logged(1);
+      if (errorCode === 'auth/wrong-password') {
+        alert('Wrong password.');
+      } else if (errorCode === 'auth/user-not-found'){
+        alert("User does not exist");
+      }
+      console.log(error);
+    }).then(function(result){
         self.router.navigate(["../tabs/home"]);
     });
+  }
+
+  guestLogin() {
+	  this.router.navigate(["../tabs/home"]);
   }
 
 }
