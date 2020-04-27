@@ -29,6 +29,10 @@ const routes: Routes = [
   {
     path: 'ask-question',
     loadChildren: () => import('./ask-question/ask-question.module').then( m => m.AskQuestionPageModule)
+  },
+  {
+    path: 'dm-menu',
+    loadChildren: () => import('./dm-menu/dm-menu.module').then( m => m.DmMenuPageModule)
   }
 ];
 @NgModule({
