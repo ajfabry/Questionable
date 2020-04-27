@@ -58,7 +58,13 @@ export class QuestionPage implements OnInit {
   }
 
   goToAnswerQuestion(question) {
-    this.router.navigate(["/answer-question", question]);
+    if(this.service.loggedIn()) {
+      this.router.navigate(['/answer-question']);
+    }
+    else {
+      alert("You must be signed in to answer a question.");
+      this.router.navigate(['/login']);
+    }
   }
 
   goToQuestion(question) {
