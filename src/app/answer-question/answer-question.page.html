@@ -1,5 +1,8 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
     <ion-title>Answer Question</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -18,7 +21,5 @@
     <ion-label color="primary" position="floating">Post a Follow Up Question</ion-label>
     <ion-input type="text" [(ngModel)]="followup" required></ion-input>
   </ion-item>
-
-  <ion-button expand="block" (click)="cancel()">Cancel</ion-button>
   <ion-button expand="block" type="submit" (click)="submit()">Submit</ion-button>
 </ion-content>

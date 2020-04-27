@@ -50,6 +50,16 @@ export class HomePage implements OnInit {
     this.router.navigate(["/question", question]);
   }
 
+  goToAskQuestion() {
+    if(this.loggedIn()) {
+      this.router.navigate(['/ask-question']);
+    }
+    else {
+      confirm("You need to login to post a question.");
+      this.router.navigate(['/login']);
+    }
+  }
+
   login() {
       this.router.navigate(["/login"]);
   }
