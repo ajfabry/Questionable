@@ -27,12 +27,6 @@ export class HomePage implements OnInit {
             var item = doc.data();
             
             var question = {question: item.question, votes: 0, id: doc.ref.id, path: doc.ref.path};
-            
-            var voteCount = 0;
-            self.getQuestionVotes(question).onSnapshot(upvotes => {
-              voteCount = sum(values(upvotes.data()));
-              question.votes = voteCount;
-            });
 
             self.questions.push(question);
         });
