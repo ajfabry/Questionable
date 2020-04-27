@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Service } from '../question.service';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-home',
@@ -34,6 +35,14 @@ export class HomePage implements OnInit {
   }
 
   login() {
-    this.router.navigate(["/login"]);
+      this.router.navigate(["/login"]);
+  }
+
+  profile() {
+    this.router.navigate(['/profile-page']);
+  }
+
+  loggedIn() {
+    return firebase.auth().currentUser!=null;
   }
 }

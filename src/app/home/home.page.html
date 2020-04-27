@@ -1,7 +1,8 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button (click)="login()">Login</ion-button>
+      <ion-button *ngIf="!this.loggedIn()" (click)="login()">Login</ion-button>
+      <ion-button *ngIf="this.loggedIn()" (click)="profile()">Profile</ion-button>
     </ion-buttons>
     <ion-title>Questionable</ion-title>
   </ion-toolbar>

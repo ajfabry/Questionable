@@ -3,6 +3,9 @@
     <ion-title>
       User Profile
     </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()">Logout</ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -13,21 +16,27 @@
     </ion-img>
   </ion-item>
   <ion-item>
-    
-      Username: 
-    
-    <ion-label >
-      {{this.username}}
+    <ion-label>
+      <h4 class="ion-text-wrap" color="grey">
+        Username
+      </h4>
+      <h3 class="ion-text-wrap">
+        <b>{{this.username}}</b>
+      </h3>
     </ion-label>
   </ion-item>
   <ion-item>
-    Number of Posts: 
     <ion-label>
-      {{this.numPosts}}
+      <h4 class="ion-text-wrap" color="grey">
+        Number of Posts
+      </h4>
+      <h3 class="ion-text-wrap">
+        <b>{{ this.numPosts }}</b>
+      </h3>
     </ion-label>
   </ion-item>
-  <ion-button expand="block" (click)="message()">Message</ion-button>
+  <!--<ion-button expand="block" (click)="message()">Message</ion-button>-->
 
-  <ion-button expand="block">Return</ion-button>
+  <ion-button expand="block" (click)="return()">Return</ion-button>
   
 </ion-content>
