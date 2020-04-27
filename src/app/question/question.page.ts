@@ -34,20 +34,27 @@ export class QuestionPage implements OnInit {
     this.docRef.collection("answers").get()
     .then(querySnapshot => {
       self.answers = [];
+      var numAnswers = 0;
       querySnapshot.forEach(doc => {
+        numAnswers++;
         var item = doc.data();
 
         var answer = {question: item.question, answer: item.answer, votes: 0, id: doc.ref.id, path: doc.ref.path};
             
-        var voteCount = 0;
-        self.getQuestionVotes(answer).onSnapshot(upvotes => {
+        self.getQuestionVotes(answer).get().then(upvotes => {
           answer.votes = sum(values(upvotes.data()));
+          self.answers.push(answer);
+          if (self.answers.length == numAnswers) {
+            self.sortAnswers();
+          }
         });
-
-        self.answers.push(answer);
       });
       this.answers = self.answers;
     });
+  }
+
+  sortAnswers() {
+    this.answers.sort((a,b) => b.votes - a.votes);
   }
 
   goToAnswerQuestion(question) {
