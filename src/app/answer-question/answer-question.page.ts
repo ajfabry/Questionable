@@ -13,6 +13,7 @@ export class AnswerQuestionPage implements OnInit {
   answer="";
   followup="";
   docRef: any;
+  
 
   constructor(
     private route: ActivatedRoute,
@@ -34,7 +35,7 @@ export class AnswerQuestionPage implements OnInit {
       "question":this.followup,
       "uid":uid
     };
-
+    
     this.docRef = this.service.db.doc(this.question.path);
 
     this.docRef.collection("answers").add(entry)
@@ -49,6 +50,9 @@ export class AnswerQuestionPage implements OnInit {
       console.error("Error adding document: ", error);
     });
 
+    const increment = firebase.firestore.FieldValue.increment(1);
+
+    this.service.db.collection("username").doc(uid).update({ numPosts: increment});
 
     this.router.navigate(['/question',this.question]);
   }
