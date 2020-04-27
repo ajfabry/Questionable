@@ -44,27 +44,13 @@ export class SignupPage implements OnInit {
 	      // ...
       }).then(function(result){
 		    var user= firebase.auth().currentUser;
-		    var db = firebase.firestore();
-			  db.collection("username").add({
-				'uid':user.uid,
-				  'username': self.username
-			  
-		    })
-		    .then(function(docRef) {
-			  console.log("usetype written with ID: ", docRef.id);
+        var db = firebase.firestore();
+        
+        db.collection("username").doc(user.uid).set({
+          "username": self.username
+        });
 
-			  //update this products arrays
-		  })
-		  .catch(function(error) {
-			  console.error("Error adding document: ", error);
-		  });
-
-
-
-		  console.log("finished creating account")
-		  console.log(user.uid)
-		  // self.router.navigate(["/login"]);
-		  self.router.navigate(["../tabs/tab1"]);
+		  self.router.navigate(["../tabs/home"]);
     });
 
 

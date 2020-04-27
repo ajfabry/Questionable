@@ -11,7 +11,6 @@ import * as firebase from 'firebase';
 export class ProfilePagePage implements OnInit {
   username;
   numPosts;
-  db;
 
   constructor(
     private route: ActivatedRoute,
@@ -20,28 +19,22 @@ export class ProfilePagePage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.username = this.service.getUsername();
+    this.username = this.loadUsername();//getUsername();
     console.log("This should run after the getUsername function");
     this.numPosts = 20;
   }
-  /*
+  
   loadUsername() {
-    this.db = this.service.db;
-    var ref = firebase.database().ref("username");
     var currentUser = firebase.auth().currentUser;
-    console.log(firebase.auth().currentUser)
-    this.db.collection("username").where("uid","==",currentUser.uid)
-    .onSnapshot(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
-        var item = doc.data;
-        console.log(item.username);
-      })
-    })
-    
-    console.log("waited");
-    //return string;
+
+    // TODO: replace with service.isLoggedIn()
+    if (currentUser != null) {
+      this.service.db.collection("username").doc(currentUser.uid).get().then(doc => {
+        this.username = doc.data().username;
+      });
+    }
   }
-  */
+  
   message() {
     console.log("Message " + this.username);
     this.router.navigate(["/answer-question"])
