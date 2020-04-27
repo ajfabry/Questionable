@@ -19,9 +19,10 @@ export class ProfilePagePage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.username = this.loadUsername();
+    this.loadUsername();
+    //this.username = this.loadUsername();
     console.log("This should run after the getUsername function");
-    this.numPosts = 20;
+    //this.numPosts = 20;
   }
   
   loadUsername() {
@@ -30,6 +31,7 @@ export class ProfilePagePage implements OnInit {
     if (this.service.loggedIn()) {
       this.service.db.collection("username").doc(currentUser.uid).get().then(doc => {
         this.username = doc.data().username;
+        this.numPosts = doc.data().numPosts;
       });
     }
   }
