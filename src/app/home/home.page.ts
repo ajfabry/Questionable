@@ -54,8 +54,14 @@ export class HomePage implements OnInit {
   }
 
   updateVote(question, vote) {
-    let data = {};
-    data[firebase.auth().currentUser.uid] = vote;
-    this.service.db.doc(question.path).collection("votes").doc("votes").update(data);
+    var user = firebase.auth().currentUser;
+
+    if (user) { 
+      let data = {};
+      data[user.uid] = vote;
+      this.service.db.doc(question.path).collection("votes").doc("votes").update(data);
+    } else {
+      alert("You must be signed in to vote on content.");
+    }
   }
 }
