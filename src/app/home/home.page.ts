@@ -46,6 +46,13 @@ export class HomePage implements OnInit {
     this.questions.sort((a,b) => b.votes - a.votes); 
   }
 
+  refreshQuestions(event) {
+    this.ngOnInit();
+    setTimeout(() => {
+      event.target.complete();
+    }, 2000);
+  }
+
   goToQuestion(question) {
     this.router.navigate(["/question", question]);
   }
