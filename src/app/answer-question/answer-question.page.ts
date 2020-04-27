@@ -36,17 +36,19 @@ export class AnswerQuestionPage implements OnInit {
     };
 
     this.docRef = this.service.db.doc(this.question.path);
-    var self = this;
 
     this.docRef.collection("answers").add(entry)
     .then(function(docRef) {
       console.log("Document written with ID: ", docRef.id);
 
-      //update this answers collection
+      docRef.collection("votes").doc("votes").set({
+        [uid]: 1
+      });
     })
     .catch(function(error) {
       console.error("Error adding document: ", error);
     });
+
 
     this.router.navigate(['/question',this.question]);
   }
