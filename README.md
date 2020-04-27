@@ -1,6 +1,6 @@
 # Questionable
 
-### AJ Fabry, Will Hefferman, and Graham Shroyer
+### AJ Fabry, Will Heffernan, and Graham Shroyer
 
 Users ask questions. They can ask any question they want, no topics, no categories.
 Just a list of questions to scroll through. They can rate other user’s questions as good or bad,

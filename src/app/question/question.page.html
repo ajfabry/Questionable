@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons>
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Questionable</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <h1 text-wrap>{{ currentQuestion.question }}</h1>
+  </ion-item>
+  <ion-button expand="block" (click)="goToAnswerQuestion(currentQuestion)">Answer This Question</ion-button>
+  <ion-list>
+    <ion-item *ngFor="let answer of answers" (click)="goToQuestion(answer)">
+      <ion-label>
+        <h4 class="ion-text-wrap" color="grey">
+          {{ answer.answer }}
+        </h4>
+        <h3 class="ion-text-wrap">
+          <b>{{ answer.question }}</b>
+        </h3>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

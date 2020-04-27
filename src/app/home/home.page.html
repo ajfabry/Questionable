@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="login()">Login</ion-button>
+    </ion-buttons>
+    <ion-title>Questionable</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <h1 align="center">Here you'll see all the questions that other users have posted.</h1>
+  </ion-item>
+  <ion-list>
+    <ion-item *ngFor="let question of questions" (click)="goToQuestion(question)">
+      <h4>{{ question.question }}</h4>
+    </ion-item>
+  </ion-list>
+</ion-content>
