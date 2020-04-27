@@ -1,5 +1,7 @@
 {
   "name": "Questionable",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
