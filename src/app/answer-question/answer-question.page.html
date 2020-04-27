@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Answer Question</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label>
+      {{question.question}}
+    </ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label color="primary" position="floating">Answer Here</ion-label>
+    <ion-input type="text" [(ngModel)]="answer" required></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label color="primary" position="floating">Post a Follow Up Question</ion-label>
+    <ion-input type="text" [(ngModel)]="followup" required></ion-input>
+  </ion-item>
+
+  <ion-button expand="block" (click)="cancel()">Cancel</ion-button>
+  <ion-button expand="block" type="submit" (click)="submit()">Submit</ion-button>
+</ion-content>
