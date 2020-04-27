@@ -57,6 +57,13 @@ export class QuestionPage implements OnInit {
     this.answers.sort((a,b) => b.votes - a.votes);
   }
 
+  refreshAnswers(event) {
+    this.ngOnInit();
+    setTimeout(() => {
+      event.target.complete();
+    }, 2000);
+  }
+
   goToAnswerQuestion(question) {
     if(this.service.loggedIn()) {
       this.router.navigate(['/answer-question']);

@@ -9,6 +9,9 @@
 </ion-header>
 
 <ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="refreshQuestions($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-item *ngIf="!this.service.loggedIn()">
     <h1 align="center">Here you'll see all the questions that other users have posted.</h1>
   </ion-item>
