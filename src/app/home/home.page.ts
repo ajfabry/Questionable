@@ -55,7 +55,7 @@ export class HomePage implements OnInit {
       this.router.navigate(['/ask-question']);
     }
     else {
-      confirm("You need to login to post a question.");
+      alert("You must be signed in to ask a question.");
       this.router.navigate(['/login']);
     }
   }
