@@ -21,6 +21,6 @@ export class Service
     getObservable(): Subject<any> {
         return this.eventSubject;
     }
-
+    
     constructor() {}
 }

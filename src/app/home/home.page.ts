@@ -51,7 +51,15 @@ export class HomePage implements OnInit {
   }
 
   login() {
-    this.router.navigate(["/login"]);
+      this.router.navigate(["/login"]);
+  }
+
+  profile() {
+    this.router.navigate(['/profile-page']);
+  }
+
+  loggedIn() {
+    return firebase.auth().currentUser!=null;
   }
 
   getQuestionVotes(question) {
