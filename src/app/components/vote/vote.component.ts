@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { HomePage } from '../home/home.page';
+import { HomePage } from '../../home/home.page';
 import { sum, values } from 'lodash';
 import * as firebase from 'firebase';
 
@@ -21,7 +21,10 @@ export class VoteComponent implements OnInit {
     let currentUser = firebase.auth().currentUser;
     this.homePage.getQuestionVotes(this.currentQuestion).onSnapshot(upvotes => {
       this.voteCount = sum(values(upvotes.data()));
-      this.userVote = upvotes.data()[currentUser.uid];
+
+      // TODO: change this to IsLoggedIn()
+      if (currentUser != null)
+        this.userVote = upvotes.data()[currentUser.uid];
     });
   }
 

@@ -8,15 +8,16 @@ import { HomePageRoutingModule } from './home-routing.module';
 
 import { HomePage } from './home.page';
 
-import { VoteComponent } from '../vote/vote.component';
+import { ComponentsModule } from '../components/components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    HomePageRoutingModule
+    HomePageRoutingModule,
+    ComponentsModule
   ],
-  declarations: [HomePage, VoteComponent]
+  declarations: [HomePage]
 })
 export class HomePageModule {}

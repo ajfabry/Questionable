@@ -8,13 +8,18 @@ import { QuestionPageRoutingModule } from './question-routing.module';
 
 import { QuestionPage } from './question.page';
 
+import { ComponentsModule } from '../components/components.module';
+import { HomePage } from '../home/home.page';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    QuestionPageRoutingModule
+    QuestionPageRoutingModule,
+    ComponentsModule
   ],
-  declarations: [QuestionPage]
+  declarations: [QuestionPage],
+  providers: [HomePage]
 })
 export class QuestionPageModule {}
