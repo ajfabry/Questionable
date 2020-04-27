@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Service } from '../question.service';
+import * as firebase from 'firebase';
+import { sum, values } from 'lodash';
 
 @Component({
   selector: 'app-question',
@@ -34,7 +36,16 @@ export class QuestionPage implements OnInit {
       self.answers = [];
       querySnapshot.forEach(doc => {
         var item = doc.data();
-        self.answers.push({answer: item.answer, question: item.question, id: doc.ref.id, path: doc.ref.path});
+
+        var answer = {question: item.question, answer: item.answer, votes: 0, id: doc.ref.id, path: doc.ref.path};
+            
+        var voteCount = 0;
+        self.getQuestionVotes(answer).onSnapshot(upvotes => {
+          voteCount = sum(values(upvotes.data()));
+          answer.votes = voteCount;
+        });
+
+        self.answers.push(answer);
       });
       this.answers = self.answers;
     });
@@ -46,6 +57,22 @@ export class QuestionPage implements OnInit {
 
   goToQuestion(question) {
     this.router.navigate(["/question", question]);
+  }
+
+  getQuestionVotes(question) {
+    return this.service.db.doc(question.path).collection("votes").doc("votes");
+  }
+
+  updateVote(question, vote) {
+    var user = firebase.auth().currentUser;
+
+    if (user) { 
+      let data = {};
+      data[user.uid] = vote;
+      this.service.db.doc(question.path).collection("votes").doc("votes").update(data);
+    } else {
+      alert("You must be signed in to vote on content.");
+    }
   }
 
 }

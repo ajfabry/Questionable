@@ -13,8 +13,13 @@
   </ion-item>
   <ion-button expand="block" (click)="goToAnswerQuestion(currentQuestion)">Answer This Question</ion-button>
   <ion-list>
-    <ion-item *ngFor="let answer of answers" (click)="goToQuestion(answer)">
-      <ion-label>
+    <ion-item *ngFor="let answer of answers">
+      <div class="voting" slot="start">
+        <ion-icon name="arrow-up-outline" (click)="updateVote(answer, 1)"></ion-icon>
+        <h4 align="center">{{ answer.votes }}</h4>
+        <ion-icon name="arrow-down-outline" (click)="updateVote(answer, -1)"></ion-icon>
+      </div>
+      <ion-label (click)="goToQuestion(answer)">
         <h4 class="ion-text-wrap" color="grey">
           {{ answer.answer }}
         </h4>
