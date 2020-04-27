@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Service } from '../question.service';
 import * as firebase from 'firebase';
-import { AngularFireObject } from 'angularfire2/database';
 import { sum, values } from 'lodash';
 
 @Component({
