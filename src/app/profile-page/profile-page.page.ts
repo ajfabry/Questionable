@@ -19,7 +19,7 @@ export class ProfilePagePage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.username = this.loadUsername();//getUsername();
+    this.username = this.loadUsername();
     console.log("This should run after the getUsername function");
     this.numPosts = 20;
   }
@@ -44,9 +44,5 @@ export class ProfilePagePage implements OnInit {
     firebase.auth().signOut();
     console.log("Logged out");
     this.router.navigate(['/login']);
-  }
-
-  return() {
-    this.router.navigate(['../tabs/home']);
   }
 }
