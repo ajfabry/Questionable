@@ -22,7 +22,7 @@ export class VoteComponent implements OnInit {
     this.homePage.getQuestionVotes(this.currentQuestion).onSnapshot(upvotes => {
       this.voteCount = sum(values(upvotes.data()));
 
-      if (this.homePage.loggedIn() && upvotes != null && upvotes.data() != null)
+      if (this.homePage.service.loggedIn() && upvotes != null && upvotes.data() != null)
         this.userVote = upvotes.data()[currentUser.uid];
     });
   }

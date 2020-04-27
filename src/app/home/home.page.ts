@@ -51,7 +51,7 @@ export class HomePage implements OnInit {
   }
 
   goToAskQuestion() {
-    if(this.loggedIn()) {
+    if (this.service.loggedIn()) {
       this.router.navigate(['/ask-question']);
     }
     else {
@@ -66,10 +66,6 @@ export class HomePage implements OnInit {
 
   profile() {
     this.router.navigate(['/profile-page']);
-  }
-
-  loggedIn() {
-    return firebase.auth().currentUser!=null;
   }
 
   getQuestionVotes(question) {

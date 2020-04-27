@@ -23,4 +23,8 @@ export class Service
     }
     
     constructor() {}
+
+    loggedIn() {
+        return firebase.auth().currentUser!=null;
+    }
 }

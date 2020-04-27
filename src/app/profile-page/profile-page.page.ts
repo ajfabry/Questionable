@@ -27,8 +27,7 @@ export class ProfilePagePage implements OnInit {
   loadUsername() {
     var currentUser = firebase.auth().currentUser;
 
-    // TODO: replace with service.isLoggedIn()
-    if (currentUser != null) {
+    if (this.service.loggedIn()) {
       this.service.db.collection("username").doc(currentUser.uid).get().then(doc => {
         this.username = doc.data().username;
       });

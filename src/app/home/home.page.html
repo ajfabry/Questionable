@@ -1,15 +1,15 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button *ngIf="!this.loggedIn()" (click)="login()">Login</ion-button>
-      <ion-button *ngIf="this.loggedIn()" (click)="profile()">Profile</ion-button>
+      <ion-button *ngIf="!this.service.loggedIn()" (click)="login()">Login</ion-button>
+      <ion-button *ngIf="this.service.loggedIn()" (click)="profile()">Profile</ion-button>
     </ion-buttons>
     <ion-title>Questionable</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-item *ngIf="!this.loggedIn()">
+  <ion-item *ngIf="!this.service.loggedIn()">
     <h1 align="center">Here you'll see all the questions that other users have posted.</h1>
   </ion-item>
   <ion-button expand="block" (click)="goToAskQuestion()">Ask A Question</ion-button>
