@@ -41,8 +41,7 @@ export class QuestionPage implements OnInit {
             
         var voteCount = 0;
         self.getQuestionVotes(answer).onSnapshot(upvotes => {
-          voteCount = sum(values(upvotes.data()));
-          answer.votes = voteCount;
+          answer.votes = sum(values(upvotes.data()));
         });
 
         self.answers.push(answer);
