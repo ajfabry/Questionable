@@ -8,6 +8,9 @@
 </ion-header>
 
 <ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="refreshAnswers($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-item>
     <h1 text-wrap>{{ currentQuestion.question }}</h1>
   </ion-item>
