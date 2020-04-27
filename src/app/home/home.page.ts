@@ -43,9 +43,7 @@ export class HomePage implements OnInit {
   }
 
   sortQuestions() {
-    this.questions.sort(function(a,b)  { 
-      return b.votes - a.votes;
-     });
+    this.questions.sort((a,b) => b.votes - a.votes); 
   }
 
   goToQuestion(question) {
