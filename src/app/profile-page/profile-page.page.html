@@ -38,5 +38,5 @@
       </h3>
     </ion-label>
   </ion-item>
-  <!--<ion-button expand="block" (click)="message()">Message</ion-button>-->  
+  <ion-button *ngIf="!isThisYou()" expand="block" (click)="message()">Message</ion-button>
 </ion-content>

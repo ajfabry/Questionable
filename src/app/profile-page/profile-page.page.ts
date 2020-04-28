@@ -11,6 +11,7 @@ import * as firebase from 'firebase';
 export class ProfilePagePage implements OnInit {
   username;
   numPosts;
+  uid;
 
   constructor(
     private route: ActivatedRoute,
@@ -18,18 +19,24 @@ export class ProfilePagePage implements OnInit {
     private service: Service
   ) {}
 
-  ngOnInit() {
-    this.loadUsername();
+  ngOnInit() { 
+    this.route.params.subscribe(
+      question => {
+        this.uid = question.uid;
+      }
+    )
+
+    this.loadUsername(this.uid);
     //this.username = this.loadUsername();
     console.log("This should run after the getUsername function");
     //this.numPosts = 20;
   }
   
-  loadUsername() {
-    var currentUser = firebase.auth().currentUser;
+  loadUsername(uid) {
+    //var currentUser = firebase.auth().currentUser;
 
     if (this.service.loggedIn()) {
-      this.service.db.collection("username").doc(currentUser.uid).get().then(doc => {
+      this.service.db.collection("username").doc(uid).get().then(doc => {
         this.username = doc.data().username;
         this.numPosts = doc.data().numPosts;
       });
@@ -45,5 +52,9 @@ export class ProfilePagePage implements OnInit {
     firebase.auth().signOut();
     console.log("Logged out");
     this.router.navigate(['/login']);
+  }
+
+  isThisYou() {
+    return this.uid==firebase.auth().currentUser.uid
   }
 }

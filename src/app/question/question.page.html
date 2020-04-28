@@ -19,7 +19,7 @@
     <ion-item *ngFor="let answer of answers">
       <app-vote [currentQuestion]="answer" slot="start"></app-vote>
       <ion-label (click)="goToQuestion(answer)">
-        <h6 class="user-info">
+        <h6 class="ion-text-wrap user-info" (click)="setToProfile()">
           <i><b>{{ answer.username }}</b> answered:</i>
         </h6>
         <h4 class="ion-text-wrap user-answer" color="grey">

@@ -19,11 +19,11 @@
   <ion-list>
     <ion-item *ngFor="let question of questions">
       <app-vote [currentQuestion]="question" slot="start"></app-vote>
-      <ion-label>
-        <h6 class="user-info">
+      <ion-label (click)="goToQuestion(question)">
+        <h6 class="user-info" (click)="setToProfile()">
           <i><b>{{ question.username }}</b> asked:</i>
         </h6>
-        <h2 class="ion-text-wrap" (click)="goToQuestion(question)">{{ question.question }}</h2>
+        <h2 class="ion-text-wrap">{{ question.question }}</h2>
       </ion-label>
     </ion-item>
   </ion-list>
