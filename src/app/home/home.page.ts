@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { Service } from '../question.service';
 import * as firebase from 'firebase';
 import { sum, values } from 'lodash';
+import { PopoverController } from '@ionic/angular';
+import { FilterDateHomeComponent } from './filter-date-home/filter-date-home.component';
 
 @Component({
   selector: 'app-home',
@@ -17,10 +19,15 @@ export class HomePage implements OnInit {
 
   constructor(
     public router: Router,
-    public service: Service
+    public service: Service,
+    public popoverController: PopoverController
   ) 
   {
     this.service.getObservable().subscribe((data) => {
+      if (data.sort != null) {
+        console.log(data.sort);
+        this.setCutoff(data.sort);
+      }
       if (data.page == "HomePage")
         this.ngOnInit();
     })
@@ -123,5 +130,19 @@ export class HomePage implements OnInit {
     } else {
       alert("You must be signed in to vote on content.");
     }
+  }
+
+  async presentPopover(event) {
+    console.log("presenting popover");
+    const popover = await this.popoverController.create({
+      component: FilterDateHomeComponent,
+      event: event,
+      translucent: true
+    });
+    return await popover.present();
+  }
+
+  setCutoff(cutoff) {
+    this.cutoffDate = new Date(Date.now() - cutoff);
   }
 }
