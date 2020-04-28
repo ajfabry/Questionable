@@ -27,7 +27,7 @@ export class QuestionPage implements OnInit {
         this.currentQuestion = question;
       }
     )
-
+    
     this.docRef = this.service.db.doc(this.currentQuestion.path);
       
     var self = this;
@@ -66,7 +66,7 @@ export class QuestionPage implements OnInit {
 
   goToAnswerQuestion(question) {
     if(this.service.loggedIn()) {
-      this.router.navigate(['/answer-question']);
+      this.router.navigate(['/answer-question',question]);
     }
     else {
       alert("You must be signed in to answer a question.");

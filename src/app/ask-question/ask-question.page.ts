@@ -38,6 +38,10 @@ export class AskQuestionPage implements OnInit {
       console.error("Error adding document: ", error);
     });
 
+    const increment = firebase.firestore.FieldValue.increment(1);
+
+    this.service.db.collection("username").doc(uid).update({ numPosts: increment});
+
     this.router.navigate(['../tabs/home']);
   }
 }
