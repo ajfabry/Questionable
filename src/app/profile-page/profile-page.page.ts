@@ -44,8 +44,9 @@ export class ProfilePagePage implements OnInit {
   }
   
   message() {
-    console.log("Message " + this.username);
-    this.router.navigate(["/answer-question"])
+    console.log("Sending message from " + firebase.auth().currentUser.uid + " to " + this.uid);
+
+    this.router.navigate(["/dm-user", this.uid]);
   }
 
   logout() {
