@@ -14,6 +14,7 @@ export class QuestionPage implements OnInit {
   currentQuestion: any;
   answers: Array<any>;
   docRef: any;
+  toProfile = false;
 
   constructor (
     private route: ActivatedRoute,
@@ -34,6 +35,8 @@ export class QuestionPage implements OnInit {
       }
     )
     
+    this.toProfile = false;
+
     this.docRef = this.service.db.doc(this.currentQuestion.path);
       
     var self = this;
@@ -45,7 +48,7 @@ export class QuestionPage implements OnInit {
         numAnswers++;
         var item = doc.data();
 
-        var answer = {question: item.question, answer: item.answer, username: "", votes: 0, id: doc.ref.id, path: doc.ref.path};
+        var answer = {question: item.question, answer: item.answer, username: "", uid: item.uid, votes: 0, id: doc.ref.id, path: doc.ref.path};
         
         if(item.uid!=null){
           self.getUsername(item.uid).get().then(username => {
@@ -87,7 +90,21 @@ export class QuestionPage implements OnInit {
   }
 
   goToQuestion(question) {
-    this.router.navigate(["/question", question]);
+    if(this.toProfile) {
+      this.goToProfile(question);
+    }
+    else {
+      this.router.navigate(["/question", question]);
+    }
+  }
+
+  goToProfile(answer) {
+    this.toProfile = false;
+    this.router.navigate(['/profile-page', answer]);
+  }
+
+  setToProfile() {
+    this.toProfile = true;
   }
 
   getQuestionVotes(question) {
