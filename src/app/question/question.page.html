@@ -19,15 +19,15 @@
     <ion-item *ngFor="let answer of answers">
       <app-vote [currentQuestion]="answer" slot="start"></app-vote>
       <ion-label (click)="goToQuestion(answer)">
-        <h6 color="aqua">
-          <i>{{ answer.username }} answered:</i>
+        <h6 class="user-info">
+          <i><b>{{ answer.username }}</b> answered:</i>
         </h6>
-        <h4 class="ion-text-wrap" color="grey">
+        <h4 class="ion-text-wrap user-answer" color="grey">
           {{ answer.answer }}
         </h4>
-        <h3 class="ion-text-wrap">
+        <h2 class="ion-text-wrap user-question">
           <b>{{ answer.question }}</b>
-        </h3>
+        </h2>
       </ion-label>
     </ion-item>
   </ion-list>

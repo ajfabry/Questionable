@@ -20,7 +20,9 @@
     <ion-item *ngFor="let question of questions">
       <app-vote [currentQuestion]="question" slot="start"></app-vote>
       <ion-label>
-        <h5><i>{{ question.username }} asked:</i></h5>
+        <h6 class="user-info">
+          <i><b>{{ question.username }}</b> asked:</i>
+        </h6>
         <h2 class="ion-text-wrap" (click)="goToQuestion(question)">{{ question.question }}</h2>
       </ion-label>
     </ion-item>
