@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router,ActivatedRoute} from '@angular/router';
 import * as firebase from 'firebase';
 import { Service } from '../question.service';
+import { NavController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-answer-question',
@@ -17,7 +19,8 @@ export class AnswerQuestionPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private service: Service) { }
+    private service: Service,
+    private nav: NavController) { }
 
   ngOnInit() {
     this.route.params.subscribe(
@@ -50,6 +53,6 @@ export class AnswerQuestionPage implements OnInit {
     });
 
     this.service.publishEvent({page: "QuestionPage"});
-    this.router.navigate(['/question',this.question]);
+    this.nav.back();
   }
 }
