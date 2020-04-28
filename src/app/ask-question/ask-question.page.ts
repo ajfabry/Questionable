@@ -25,7 +25,8 @@ export class AskQuestionPage implements OnInit {
     let uid = firebase.auth().currentUser.uid;
     let entry = {
       "question":this.question,
-      "uid":uid
+      "uid":uid,
+      "timestamp": new Date()
     };
 
     var self = this;
