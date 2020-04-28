@@ -1,16 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule,ReactiveFormsModule } from '@angular/forms';
-import { Router,Routes, RouterModule } from '@angular/router';
-
-import { IonicModule } from '@ionic/angular';
-//import { AppService } from '../app.service';
-
-
+import { Router } from '@angular/router';
 import * as firebase from 'firebase';
+
+import { Service } from '../question.service';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +16,8 @@ export class LoginPage implements OnInit {
 
   constructor(
     private router: Router,
- 	  public formBuilder: FormBuilder
+    public formBuilder: FormBuilder,
+    private service: Service
   ) { }
 
   ngOnInit() {
@@ -57,11 +51,13 @@ export class LoginPage implements OnInit {
       }
       console.log(error);
     }).then(function(result){
-        self.router.navigate(["../tabs/home"]);
+      self.service.publishEvent({page: "HomePage"});
+      self.router.navigate(["../tabs/home"]);
     });
   }
 
   guestLogin() {
+    this.service.publishEvent({page: "HomePage"});
 	  this.router.navigate(["../tabs/home"]);
   }
 
