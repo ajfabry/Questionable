@@ -12,6 +12,10 @@ const routes: Routes = [
   },  {
     path: 'dm-menu',
     loadChildren: () => import('./dm-menu/dm-menu.module').then( m => m.DmMenuPageModule)
+  },
+  {
+    path: 'dm-user',
+    loadChildren: () => import('./dm-user/dm-user.module').then( m => m.DmUserPageModule)
   }
 
 ];
