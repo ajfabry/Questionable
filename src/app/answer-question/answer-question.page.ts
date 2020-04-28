@@ -49,7 +49,7 @@ export class AnswerQuestionPage implements OnInit {
       console.error("Error adding document: ", error);
     });
 
-
+    this.service.publishEvent({page: "QuestionPage"});
     this.router.navigate(['/question',this.question]);
   }
 }

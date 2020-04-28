@@ -19,7 +19,13 @@ export class QuestionPage implements OnInit {
     private route: ActivatedRoute,
     public service: Service,
     public router: Router
-  ) {}
+  ) 
+  {
+    this.service.getObservable().subscribe((data) => {
+      if (data.page == "QuestionPage")
+        this.ngOnInit();
+    })
+  }
 
   ngOnInit() {
     this.route.params.subscribe(
