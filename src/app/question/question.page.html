@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons>
+    <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>Questionable</ion-title>
@@ -8,8 +8,24 @@
 </ion-header>
 
 <ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="refreshAnswers($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-item>
-    <ion-label>{{ currentQuestion.question }}</ion-label>
+    <h1 text-wrap>{{ currentQuestion.question }}</h1>
   </ion-item>
   <ion-button expand="block" (click)="goToAnswerQuestion(currentQuestion)">Answer This Question</ion-button>
+  <ion-list>
+    <ion-item *ngFor="let answer of answers">
+      <app-vote [currentQuestion]="answer" slot="start"></app-vote>
+      <ion-label (click)="goToQuestion(answer)">
+        <h4 class="ion-text-wrap" color="grey">
+          {{ answer.answer }}
+        </h4>
+        <h3 class="ion-text-wrap">
+          <b>{{ answer.question }}</b>
+        </h3>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>

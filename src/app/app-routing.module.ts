@@ -7,9 +7,30 @@ const routes: Routes = [
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
   },
   {
+    path: 'answer-question',
+    loadChildren: () => import('./answer-question/answer-question.module').then( m => m.AnswerQuestionPageModule)
+  },
+  {
+    path: 'profile-page',
+    loadChildren: () => import('./profile-page/profile-page.module').then( m => m.ProfilePagePageModule)
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
+  },
+  {
+    path: 'signup',
+    loadChildren: () => import('./signup/signup.module').then( m => m.SignupPageModule)
+  },
+  {
     path: 'question',
     loadChildren: () => import('./question/question.module').then( m => m.QuestionPageModule)
-  },  {
+  },
+  {
+    path: 'ask-question',
+    loadChildren: () => import('./ask-question/ask-question.module').then( m => m.AskQuestionPageModule)
+  },
+  {
     path: 'dm-menu',
     loadChildren: () => import('./dm-menu/dm-menu.module').then( m => m.DmMenuPageModule)
   },
@@ -17,7 +38,6 @@ const routes: Routes = [
     path: 'dm-user',
     loadChildren: () => import('./dm-user/dm-user.module').then( m => m.DmUserPageModule)
   }
-
 ];
 @NgModule({
   imports: [

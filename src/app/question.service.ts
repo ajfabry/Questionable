@@ -21,22 +21,10 @@ export class Service
     getObservable(): Subject<any> {
         return this.eventSubject;
     }
+    
+    constructor() {}
 
-    constructor() {
-        var self = this;
-
-        this.db.collection("questions").onSnapshot(function(querySnapshot) {
-            self.questions = [];
-            querySnapshot.forEach(function(doc) {
-                var item = doc.data();
-                self.questions.push({question:item.question, id: doc.ref.id});
-            });
-
-            self.publishEvent({
-                Message: "Questions Loaded"
-            });
-
-            this.questions = self.questions;
-        });
+    loggedIn() {
+        return firebase.auth().currentUser!=null;
     }
 }
