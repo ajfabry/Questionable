@@ -12,6 +12,7 @@ import { sum, values } from 'lodash';
 export class HomePage implements OnInit {
 
   questions: Array<any>;
+  cutoffDate: Date;
   toProfile = false;
 
   constructor(
@@ -29,14 +30,16 @@ export class HomePage implements OnInit {
     this.toProfile = false;
     var self = this;
 
-    this.service.db.collection("questions").onSnapshot(function(querySnapshot) {
+    let startDate = this.cutoffDate || new Date(Date.now() - 24 * 60 * 60 * 1000);
+    this.service.db.collection("questions").where("timestamp", '>', startDate).onSnapshot(function(querySnapshot) {
       self.questions = [];
       var numQuestions = 0;
       querySnapshot.forEach(function(doc) {
         numQuestions++;
         var item = doc.data();
 
-        var question = {question: item.question, username: "", uid: item.uid, votes: 0, id: doc.ref.id, path: doc.ref.path};
+        var question = {question: item.question, username: "", uid: item.uid, votes: 0, 
+                        timestamp: item.timestamp, id: doc.ref.id, path: doc.ref.path};
 
         self.getUsername(item.uid).get().then(username => {
           question.username = username.data().username;
@@ -55,7 +58,8 @@ export class HomePage implements OnInit {
   }
 
   sortQuestions() {
-    this.questions.sort((a,b) => b.votes - a.votes); 
+    // TODO: add sort by timestamp (replace property)
+    this.questions.sort((a,b) => b.votes - a.votes);
   }
 
   refreshQuestions(event) {
