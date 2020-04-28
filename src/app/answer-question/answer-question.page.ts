@@ -40,19 +40,21 @@ export class AnswerQuestionPage implements OnInit {
 
     this.docRef = this.service.db.doc(this.question.path);
 
+    var self = this;
     this.docRef.collection("answers").add(entry)
     .then(function(docRef) {
       console.log("Document written with ID: ", docRef.id);
 
       docRef.collection("votes").doc("votes").set({
         [uid]: 1
-      });
+      }).then(() => {
+        self.service.publishEvent({page: "QuestionPage"});
+        self.nav.back();
+      })
     })
     .catch(function(error) {
       console.error("Error adding document: ", error);
     });
 
-    this.service.publishEvent({page: "QuestionPage"});
-    this.nav.back();
   }
 }
