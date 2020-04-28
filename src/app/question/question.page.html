@@ -15,6 +15,13 @@
   <ion-refresher slot="fixed" (ionRefresh)="refreshAnswers($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="presentPopover($event)">
+        <ion-icon name="time-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
   <ion-list>
     <ion-item *ngFor="let answer of answers">
       <app-vote [currentQuestion]="answer" slot="start"></app-vote>

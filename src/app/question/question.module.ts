@@ -9,6 +9,7 @@ import { QuestionPageRoutingModule } from './question-routing.module';
 import { QuestionPage } from './question.page';
 
 import { ComponentsModule } from '../components/components.module';
+import { FilterDateQuestionComponent } from './filter-date-question/filter-date-question.component';
 import { HomePage } from '../home/home.page';
 
 @NgModule({
@@ -19,7 +20,8 @@ import { HomePage } from '../home/home.page';
     QuestionPageRoutingModule,
     ComponentsModule
   ],
-  declarations: [QuestionPage],
+  entryComponents: [FilterDateQuestionComponent],
+  declarations: [QuestionPage, FilterDateQuestionComponent],
   providers: [HomePage]
 })
 export class QuestionPageModule {}
