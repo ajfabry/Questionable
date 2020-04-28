@@ -53,4 +53,8 @@ export class ProfilePagePage implements OnInit {
     console.log("Logged out");
     this.router.navigate(['/login']);
   }
+
+  isThisYou() {
+    return this.uid==firebase.auth().currentUser.uid
+  }
 }
