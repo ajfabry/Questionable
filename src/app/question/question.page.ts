@@ -19,7 +19,13 @@ export class QuestionPage implements OnInit {
     private route: ActivatedRoute,
     public service: Service,
     public router: Router
-  ) {}
+  ) 
+  {
+    this.service.getObservable().subscribe((data) => {
+      if (data.page == "QuestionPage")
+        this.ngOnInit();
+    })
+  }
 
   ngOnInit() {
     this.route.params.subscribe(
@@ -66,7 +72,7 @@ export class QuestionPage implements OnInit {
 
   goToAnswerQuestion(question) {
     if(this.service.loggedIn()) {
-      this.router.navigate(['/answer-question',question]);
+      this.router.navigate(['/answer-question', question]);
     }
     else {
       alert("You must be signed in to answer a question.");

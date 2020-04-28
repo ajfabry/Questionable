@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router,ActivatedRoute} from '@angular/router';
 import * as firebase from 'firebase';
 import { Service } from '../question.service';
+import { NavController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-answer-question',
@@ -18,7 +20,8 @@ export class AnswerQuestionPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private service: Service) { }
+    private service: Service,
+    private nav: NavController) { }
 
   ngOnInit() {
     this.route.params.subscribe(
@@ -38,13 +41,17 @@ export class AnswerQuestionPage implements OnInit {
     
     this.docRef = this.service.db.doc(this.question.path);
 
+    var self = this;
     this.docRef.collection("answers").add(entry)
     .then(function(docRef) {
       console.log("Document written with ID: ", docRef.id);
 
       docRef.collection("votes").doc("votes").set({
         [uid]: 1
-      });
+      }).then(() => {
+        self.service.publishEvent({page: "QuestionPage"});
+        self.nav.back();
+      })
     })
     .catch(function(error) {
       console.error("Error adding document: ", error);
