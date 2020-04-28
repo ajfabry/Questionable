@@ -49,6 +49,9 @@ export class AnswerQuestionPage implements OnInit {
       docRef.collection("votes").doc("votes").set({
         [uid]: 1
       }).then(() => {
+        const increment = firebase.firestore.FieldValue.increment(1);
+    
+        self.service.db.collection("username").doc(uid).update({ numPosts: increment});
         self.service.publishEvent({page: "QuestionPage"});
         self.nav.back();
       })
@@ -57,10 +60,5 @@ export class AnswerQuestionPage implements OnInit {
       console.error("Error adding document: ", error);
     });
 
-    const increment = firebase.firestore.FieldValue.increment(1);
-
-    this.service.db.collection("username").doc(uid).update({ numPosts: increment});
-
-    this.router.navigate(['/question',this.question]);
   }
 }
