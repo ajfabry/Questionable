@@ -24,10 +24,8 @@ export class HomePage implements OnInit {
   ) 
   {
     this.service.getObservable().subscribe((data) => {
-      if (data.sort != null) {
-        console.log(data.sort);
+      if (data.sort != null)
         this.setCutoff(data.sort);
-      }
       if (data.page == "HomePage")
         this.ngOnInit();
     })
