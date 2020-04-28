@@ -6,6 +6,7 @@
     </ion-buttons>
     <ion-title>Questionable</ion-title>
   </ion-toolbar>
+  <ion-button expand="block" (click)="goToAskQuestion()">Ask A Question</ion-button>
 </ion-header>
 
 <ion-content>
@@ -15,7 +16,6 @@
   <ion-item *ngIf="!this.service.loggedIn()">
     <h1 align="center">Here you'll see all the questions that other users have posted.</h1>
   </ion-item>
-  <ion-button expand="block" (click)="goToAskQuestion()">Ask A Question</ion-button>
   <ion-list>
     <ion-item *ngFor="let question of questions">
       <app-vote [currentQuestion]="question" slot="start"></app-vote>
