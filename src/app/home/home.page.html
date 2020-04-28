@@ -2,7 +2,9 @@
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-button *ngIf="!this.service.loggedIn()" (click)="login()">Login</ion-button>
-      <ion-button *ngIf="this.service.loggedIn()" (click)="profile()">Profile</ion-button>
+      <ion-button *ngIf="this.service.loggedIn()" (click)="profile()">
+        <ion-icon name="person-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
     <ion-title>Questionable</ion-title>
   </ion-toolbar>
