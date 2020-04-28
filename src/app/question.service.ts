@@ -14,16 +14,17 @@ export class Service
 
     ref = firebase.database().ref('questions/');
     db = firebase.firestore();
+    
+    constructor() {}
 
     publishEvent(data: any) {
         this.eventSubject.next(data);
     }
+    
     getObservable(): Subject<any> {
         return this.eventSubject;
     }
     
-    constructor() {}
-
     loggedIn() {
         return firebase.auth().currentUser!=null;
     }

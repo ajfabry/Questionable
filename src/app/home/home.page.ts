@@ -16,7 +16,13 @@ export class HomePage implements OnInit {
   constructor(
     public router: Router,
     public service: Service
-  ) {}
+  ) 
+  {
+    this.service.getObservable().subscribe((data) => {
+      if (data.page == "HomePage")
+        this.ngOnInit();
+    })
+  }
 
   ngOnInit() {
     var self = this;
