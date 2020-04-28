@@ -36,7 +36,8 @@ export class AnswerQuestionPage implements OnInit {
     let entry = {
       "answer":this.answer,
       "question":this.followup,
-      "uid":uid
+      "uid":uid,
+      "timestamp": new Date()
     };
     
     this.docRef = this.service.db.doc(this.question.path);
