@@ -1,10 +1,40 @@
 .voting {
-
-    .selected.upvote {
-        color: orange;
-    }
-
-    .selected.downvote {
-        color: blue;
-    }
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: .5rem;
+    height: 2rem;
 }
+
+.buttonUp {
+    position:absolute;
+    text-align: center;
+    opacity: .5;
+    width:5px;
+    bottom:22px;
+}
+
+.buttonDown {
+    position:absolute;
+    top:18px;
+    margin-top:.5rem;
+    opacity:.5;
+    height: 50%;    
+}
+
+
+.selected.upvote {
+    color: orange;
+    opacity:1;
+}
+
+.selected.downvote {
+    color: blue;
+    opacity:1;
+}
+
+.count {
+    position: absolute;
+    bottom:20%;
+}
+
