@@ -19,6 +19,9 @@
     <ion-item *ngFor="let answer of answers">
       <app-vote [currentQuestion]="answer" slot="start"></app-vote>
       <ion-label (click)="goToQuestion(answer)">
+        <h6 color="aqua">
+          <i>{{ answer.username }} answered:</i>
+        </h6>
         <h4 class="ion-text-wrap" color="grey">
           {{ answer.answer }}
         </h4>

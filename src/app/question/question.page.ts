@@ -45,8 +45,14 @@ export class QuestionPage implements OnInit {
         numAnswers++;
         var item = doc.data();
 
-        var answer = {question: item.question, answer: item.answer, votes: 0, id: doc.ref.id, path: doc.ref.path};
-            
+        var answer = {question: item.question, answer: item.answer, username: "", votes: 0, id: doc.ref.id, path: doc.ref.path};
+        
+        if(item.uid!=null){
+          self.getUsername(item.uid).get().then(username => {
+            answer.username = username.data().username;
+          });
+        }
+
         self.getQuestionVotes(answer).get().then(upvotes => {
           answer.votes = sum(values(upvotes.data()));
           self.answers.push(answer);
@@ -86,6 +92,10 @@ export class QuestionPage implements OnInit {
 
   getQuestionVotes(question) {
     return this.service.db.doc(question.path).collection("votes").doc("votes");
+  }
+
+  getUsername(uid) {
+    return this.service.db.collection("username").doc(uid);
   }
 
   updateVote(question, vote) {
