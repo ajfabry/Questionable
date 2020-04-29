@@ -18,6 +18,7 @@ export class QuestionPage implements OnInit {
   docRef: any;
   toProfile = false;
   cutoffDate: Date;
+  cutoffDisplay: string;
 
   constructor (
     private route: ActivatedRoute,
@@ -47,6 +48,18 @@ export class QuestionPage implements OnInit {
       
     var self = this;
     let startDate = this.cutoffDate || new Date(Date.now() - 24 * 60 * 60 * 1000);
+
+    if (startDate < new Date(Date.now() - 364 * 24 * 60 * 60 * 1000))
+      this.cutoffDisplay = "past year";
+    else if (startDate < new Date(Date.now() - 29 * 24 * 60 * 60 * 1000))
+      this.cutoffDisplay = "past month";
+    else if (startDate < new Date(Date.now() - 6 * 24 * 60 * 60 * 1000))
+      this.cutoffDisplay = "past week";
+    else if (startDate < new Date(Date.now() - 23 * 60 * 60 * 1000))
+      this.cutoffDisplay = "past day";
+    else
+      this.cutoffDisplay = "past hour";
+
     this.docRef.collection("answers").where("timestamp", '>', startDate).get()
     .then(querySnapshot => {
       self.answers = [];

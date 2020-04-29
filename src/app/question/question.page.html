@@ -21,6 +21,7 @@
         <ion-icon name="time-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
+    <ion-label (click)="presentPopover($event)">{{ this.cutoffDisplay }}</ion-label>
   </ion-toolbar>
   <ion-list>
     <ion-item *ngFor="let answer of answers">
