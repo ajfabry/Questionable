@@ -34,13 +34,11 @@ export class ProfilePagePage implements OnInit {
   
   loadUsername(uid) {
     //var currentUser = firebase.auth().currentUser;
-
-    if (this.service.loggedIn()) {
-      this.service.db.collection("username").doc(uid).get().then(doc => {
-        this.username = doc.data().username;
-        this.numPosts = doc.data().numPosts;
-      });
-    }
+    
+    this.service.db.collection("username").doc(uid).get().then(doc => {
+      this.username = doc.data().username;
+      this.numPosts = doc.data().numPosts;
+    });
   }
   
   message() {
@@ -56,6 +54,11 @@ export class ProfilePagePage implements OnInit {
   }
 
   isThisYou() {
-    return this.uid==firebase.auth().currentUser.uid
+    if(this.service.loggedIn()){
+      return this.uid==firebase.auth().currentUser.uid
+    }
+    else {
+      return false;
+    }
   }
 }
