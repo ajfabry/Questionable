@@ -90,4 +90,9 @@ export class HomePage implements OnInit {
       alert("You must be signed in to vote on content.");
     }
   }
+
+  dmMenu() {
+    this.router.navigate(["/dm-menu"]);
+  }
+
 }

@@ -4,6 +4,11 @@
       <ion-button *ngIf="!this.service.loggedIn()" (click)="login()">Login</ion-button>
       <ion-button *ngIf="this.service.loggedIn()" (click)="profile()">Profile</ion-button>
     </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button *ngIf="this.service.loggedIn()" (click)="dmMenu()">
+        <ion-icon name="chatbubbles"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     <ion-title>Questionable</ion-title>
   </ion-toolbar>
 </ion-header>

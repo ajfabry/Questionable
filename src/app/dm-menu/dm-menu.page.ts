@@ -11,7 +11,7 @@ import * as firebase from 'Firebase';
 export class DmMenuPage implements OnInit {
 
   chats = [];
-  ref = firebase.database().ref('dmMenu/');
+  ref = firebase.database().ref('chats/');
 
   constructor(public router: Router) {
     this.ref.on('value', resp => {
@@ -19,7 +19,7 @@ export class DmMenuPage implements OnInit {
       this.chats = snapshotToArray(resp);
     });
   }
-
+ 
   ngOnInit() {
   }
 
