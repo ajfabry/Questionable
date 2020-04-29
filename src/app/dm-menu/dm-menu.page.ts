@@ -12,8 +12,7 @@ export class DmMenuPage implements OnInit {
 
   chats = [];
   ref = firebase.database().ref('chats/');
-  username: string = '';
-
+  //username: string = '';
   constructor(public router: Router, public service: Service) {
     this.ref.on('value', resp => {
       this.chats = [];
@@ -22,18 +21,43 @@ export class DmMenuPage implements OnInit {
   }
  
   ngOnInit() {
-  }
-
-  loadUsername() {
     var currentUser = firebase.auth().currentUser;
-
+    var self = this;
+    let user;
     if (this.service.loggedIn()) {
-      this.service.db.collection("username").doc(currentUser.uid).get().then(doc => {
-        this.username = doc.data().username;
+      self.service.db.collection("username").doc(currentUser.uid).get().then(username => {
+        user=username.data().username;
       });
+      this.service.db.collection("username").doc(currentUser.uid).collection("conversations").onSnapshot(conversationList => {
+        self.chats = [];
+        conversationList.forEach(doc => {
+          console.log("here");
+          let conversation = doc.data();
+          console.log(user);
+          if(conversation.UserA==user){
+            self.chats.push({username:conversation.UserB});
+          }
+          else{
+            self.chats.push({username:conversation.UserA});
+          }
+        })
+        this.chats = self.chats;
+        console.log(this.chats);
+      })
     }
   }
-  
+
+  loadUsername(uid) {
+    //var currentUser = firebase.auth().currentUser;
+    let rUsername = '';
+    if (this.service.loggedIn()) {
+      this.service.db.collection("username").doc(uid).get().then(doc => {
+        rUsername = doc.data().username;
+      });
+    }
+    return rUsername;
+  }
+
   goToChat(chat) {
     this.router.navigate(["/dm-user", chat]);
   }

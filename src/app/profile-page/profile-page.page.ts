@@ -43,10 +43,53 @@ export class ProfilePagePage implements OnInit {
     }
   }
   
+  getChatName(uid1, uid2){
+    let uids = [uid1, uid2]
+    let concatName = '';
+    uids.sort();
+    for(let i=0; i<uids.length;i++){
+      concatName += '-' + uids[i];
+    }
+    return concatName;
+  }
+
   message() {
     console.log("Sending message from " + firebase.auth().currentUser.uid + " to " + this.uid);
-
-    this.router.navigate(["/dm-user", this.uid]);
+    var pChatName = this.getChatName(this.uid,firebase.auth().currentUser.uid);
+    let userA;
+    let userB;
+    if (this.service.loggedIn()) {
+      this.service.db.collection("username").doc(this.uid).get().then(username => {
+        userA=username.data().username;
+      });
+      this.service.db.collection("username").doc(firebase.auth().currentUser.uid).get().then(username => {
+        userB=username.data().username;
+      });
+      this.service.db.collection("chats").doc(pChatName).get().then(docSnapshot => {
+        if (docSnapshot.exists) {
+          //this.router.navigate(["/dm-user", pChatName]);
+        }
+        else{
+          let entry = {
+            "UserA":userA,
+            "UserB":userB,
+            "messages":[]
+          };
+          this.service.db.collection("chats").doc(pChatName).set(entry);
+          let convEntry = {
+            "UserA":userA,
+            "UserB":userB,
+            "roomName":pChatName
+          }
+          this.service.db.collection("username").doc(this.uid).collection("conversations").doc().set(convEntry);
+          this.service.db.collection("username").doc(firebase.auth().currentUser.uid).collection("conversations").doc().set(convEntry);
+        }
+      });
+    }
+    else{
+      this.router.navigate(['/login']);
+    }
+    this.router.navigate(["/dm-user", pChatName]);
   }
 
   logout() {
