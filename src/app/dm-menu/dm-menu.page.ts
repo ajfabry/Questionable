@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as firebase from 'Firebase';
-
+import { Service } from '../question.service';
 
 @Component({
   selector: 'app-dm-menu',
@@ -12,8 +12,9 @@ export class DmMenuPage implements OnInit {
 
   chats = [];
   ref = firebase.database().ref('chats/');
+  username: string = '';
 
-  constructor(public router: Router) {
+  constructor(public router: Router, public service: Service) {
     this.ref.on('value', resp => {
       this.chats = [];
       this.chats = snapshotToArray(resp);
@@ -23,6 +24,16 @@ export class DmMenuPage implements OnInit {
   ngOnInit() {
   }
 
+  loadUsername() {
+    var currentUser = firebase.auth().currentUser;
+
+    if (this.service.loggedIn()) {
+      this.service.db.collection("username").doc(currentUser.uid).get().then(doc => {
+        this.username = doc.data().username;
+      });
+    }
+  }
+  
   goToChat(chat) {
     this.router.navigate(["/dm-user", chat]);
   }
