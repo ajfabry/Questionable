@@ -82,7 +82,6 @@ export class HomePage implements OnInit {
   }
 
   sortQuestions() {
-    // TODO: add sort by timestamp (replace property)
     if (this.sortBy == "votes")
       this.questions.sort((a,b) => b.votes - a.votes);
     else if (this.sortBy == "date")
