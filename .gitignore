@@ -2,6 +2,7 @@
 # http://git-scm.com/docs/gitignore
 
 /src/app/app.component.ts
+/src/index.html
 
 *~
 *.sw[mnpcod]
