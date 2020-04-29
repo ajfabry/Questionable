@@ -26,7 +26,7 @@ export class HomePage implements OnInit {
   {
     this.service.getObservable().subscribe((data) => {
       if (data.sort != null)
-        this.setCutoff(data.sort);
+        this.setCutoff(data.sort, data.allTime);
       if (data.page == "HomePage")
         this.ngOnInit();
     })
@@ -38,7 +38,9 @@ export class HomePage implements OnInit {
 
     let startDate = this.cutoffDate || new Date(Date.now() - 24 * 60 * 60 * 1000);
 
-    if (startDate < new Date(Date.now() - 364 * 24 * 60 * 60 * 1000))
+    if (startDate < new Date(Date.now() - 366 * 24 * 60 * 60 * 1000))
+      this.cutoffDisplay = "all time";
+    else if (startDate < new Date(Date.now() - 364 * 24 * 60 * 60 * 1000))
       this.cutoffDisplay = "past year";
     else if (startDate < new Date(Date.now() - 29 * 24 * 60 * 60 * 1000))
         this.cutoffDisplay = "past month";
@@ -153,7 +155,10 @@ export class HomePage implements OnInit {
     return await popover.present();
   }
 
-  setCutoff(cutoff) {
-    this.cutoffDate = new Date(Date.now() - cutoff);
+  setCutoff(cutoff, allTime) {
+    if (allTime)
+      this.cutoffDate = new Date("0001-01-01");
+    else
+      this.cutoffDate = new Date(Date.now() - cutoff);
   }
 }
