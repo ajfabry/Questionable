@@ -18,6 +18,15 @@ export class FilterDateQuestionComponent implements OnInit {
   ngOnInit() {}
 
   setCutoff(cutOff) {
+    if (cutOff == 0) {
+      this.service.publishEvent({
+        page: "QuestionPage",
+        sort: cutOff,
+        allTime: true
+      });
+      this.popoverController.dismiss();
+      return;
+    }
     this.service.publishEvent({
       page: "QuestionPage",
       sort: cutOff
