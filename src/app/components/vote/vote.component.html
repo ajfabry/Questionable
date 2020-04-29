@@ -1,20 +1,15 @@
-<div class="voting">
-  <span class="vote upvote" [ngClass]="{'selected': userVote > 0}">
-    <ion-icon name="arrow-up-outline" (click)="vote(1)"></ion-icon>
-  </span>
-
-  <div *ngIf="userVote > 0;else nextCheck">
-    <span class="vote upvote" [ngClass]="{'selected': userVote > 0}">
-      <h4 align="center">{{ this.voteCount }}</h4>
-    </span>
+<div class = "voting">
+  <div class="buttonUp upvote" [ngClass]="{'selected': userVote > 0}">
+    <ion-icon name="arrow-up-outline" (click)="vote(1)"></ion-icon> 
   </div>
+  <div class="buttonDown downvote" [ngClass]="{'selected': userVote < 0}">
+    <ion-icon name="arrow-down-outline" (click)="vote(-1)"></ion-icon>
+  </div>
+  <div *ngIf="userVote > 0;else nextCheck" class="count upvote" [ngClass]="{'selected': userVote > 0}">{{ this.voteCount }}</div>
   <ng-template #nextCheck>
-    <span class="vote downvote" [ngClass]="{'selected': userVote < 0}">
-      <h4 align="center">{{ this.voteCount }}</h4>
-    </span>
+    <div class="count downvote" [ngClass]="{'selected': userVote < 0}">{{ this.voteCount }}</div>
   </ng-template>
 
-  <span class="vote downvote" [ngClass]="{'selected': userVote < 0}">
-    <ion-icon name="arrow-down-outline" (click)="vote(-1)"></ion-icon>
-  </span>
 </div>
+
+
