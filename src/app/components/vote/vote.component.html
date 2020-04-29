@@ -5,9 +5,33 @@
   <div class="buttonDown downvote" [ngClass]="{'selected': userVote < 0}">
     <ion-icon name="arrow-down-outline" (click)="vote(-1)"></ion-icon>
   </div>
-  <div *ngIf="userVote > 0;else nextCheck" class="count upvote" [ngClass]="{'selected': userVote > 0}">{{ this.voteCount }}</div>
+  <div *ngIf="userVote > 0;else nextCheck" class="count upvote" [ngClass]="{'selected': userVote > 0}">
+    <div *ngIf="this.voteCount > 1000;else negativeKCheck">
+      {{ (this.voteCount - this.voteCount%100)/1000 }}K
+    </div>
+    <ng-template #negativeKCheck>
+      <div *ngIf="this.voteCount < -1000;else neither">
+        {{ (this.voteCount - this.voteCount%100)/1000 }}K
+      </div>
+      <ng-template #neither>
+        <div>{{ this.voteCount }} </div>
+      </ng-template>
+    </ng-template>
+  </div>
   <ng-template #nextCheck>
-    <div class="count downvote" [ngClass]="{'selected': userVote < 0}">{{ this.voteCount }}</div>
+    <div class="count downvote" [ngClass]="{'selected': userVote < 0}">
+      <div *ngIf="this.voteCount > 1000;else negativeKCheck">
+        {{ (this.voteCount - this.voteCount%100)/1000 }}K
+      </div>
+      <ng-template #negativeKCheck>
+        <div *ngIf="this.voteCount < -1000;else neither">
+          {{ (this.voteCount - this.voteCount%100)/1000 }}K
+        </div>
+        <ng-template #neither>
+          <div>{{ this.voteCount }} </div>
+        </ng-template>
+      </ng-template>
+    </div>
   </ng-template>
 
 </div>

@@ -3,12 +3,11 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Questionable</ion-title>
+    <ion-title (click)="routeHome()">Questionable</ion-title>
   </ion-toolbar>
   <ion-item>
     <h1 text-wrap>{{ currentQuestion.question }}</h1>
   </ion-item>
-  <ion-button expand="block" (click)="goToAnswerQuestion(currentQuestion)">Answer This Question</ion-button>
 </ion-header>
 
 <ion-content>
@@ -40,3 +39,9 @@
     </ion-item>
   </ion-list>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button expand="block" (click)="goToAnswerQuestion(currentQuestion)">Answer This Question</ion-button>
+  </ion-toolbar>
+</ion-footer>

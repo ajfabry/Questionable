@@ -150,6 +150,10 @@ export class QuestionPage implements OnInit {
     }
   }
 
+  routeHome() {
+    this.router.navigate(["../tabs/home"]);
+  }
+
   async presentPopover(event) {
     console.log("presenting popover");
     const popover = await this.popoverController.create({
