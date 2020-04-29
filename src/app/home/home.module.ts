@@ -10,6 +10,7 @@ import { HomePage } from './home.page';
 
 import { ComponentsModule } from '../components/components.module';
 import { FilterDateHomeComponent } from './filter-date-home/filter-date-home.component';
+import { SortHomeComponent } from './sort-home/sort-home.component';
 
 @NgModule({
   imports: [
@@ -19,7 +20,7 @@ import { FilterDateHomeComponent } from './filter-date-home/filter-date-home.com
     HomePageRoutingModule,
     ComponentsModule
   ],
-  entryComponents: [FilterDateHomeComponent],
-  declarations: [HomePage, FilterDateHomeComponent]
+  entryComponents: [FilterDateHomeComponent, SortHomeComponent],
+  declarations: [HomePage, FilterDateHomeComponent, SortHomeComponent]
 })
 export class HomePageModule {}
