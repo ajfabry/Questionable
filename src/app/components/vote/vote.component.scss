@@ -8,10 +8,9 @@
 
 .buttonUp {
     position:absolute;
-    text-align: center;
     opacity: .5;
-    width:5px;
-    bottom:22px;
+    bottom:21.5px;
+    align-self: center;
 }
 
 .buttonDown {
@@ -20,6 +19,7 @@
     margin-top:.5rem;
     opacity:.5;
     height: 50%;    
+    align-self: center;
 }
 
 
@@ -36,5 +36,6 @@
 .count {
     position: absolute;
     bottom:20%;
+    align-self: center;
 }
 
