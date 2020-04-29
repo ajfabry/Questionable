@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { Service } from '../question.service';
 import * as firebase from 'firebase';
 import { sum, values } from 'lodash';
+import { PopoverController } from '@ionic/angular';
+import { FilterDateHomeComponent } from './filter-date-home/filter-date-home.component';
 
 @Component({
   selector: 'app-home',
@@ -12,14 +14,19 @@ import { sum, values } from 'lodash';
 export class HomePage implements OnInit {
 
   questions: Array<any>;
+  cutoffDate: Date;
+  cutoffDisplay: string;
   toProfile = false;
 
   constructor(
     public router: Router,
-    public service: Service
+    public service: Service,
+    public popoverController: PopoverController
   ) 
   {
     this.service.getObservable().subscribe((data) => {
+      if (data.sort != null)
+        this.setCutoff(data.sort);
       if (data.page == "HomePage")
         this.ngOnInit();
     })
@@ -29,14 +36,28 @@ export class HomePage implements OnInit {
     this.toProfile = false;
     var self = this;
 
-    this.service.db.collection("questions").onSnapshot(function(querySnapshot) {
+    let startDate = this.cutoffDate || new Date(Date.now() - 24 * 60 * 60 * 1000);
+
+    if (startDate < new Date(Date.now() - 364 * 24 * 60 * 60 * 1000))
+      this.cutoffDisplay = "past year";
+    else if (startDate < new Date(Date.now() - 29 * 24 * 60 * 60 * 1000))
+        this.cutoffDisplay = "past month";
+    else if (startDate < new Date(Date.now() - 6 * 24 * 60 * 60 * 1000))
+      this.cutoffDisplay = "past week";
+    else if (startDate < new Date(Date.now() - 23 * 60 * 60 * 1000))
+      this.cutoffDisplay = "past day";
+    else
+      this.cutoffDisplay = "past hour";
+
+    this.service.db.collection("questions").where("timestamp", '>', startDate).onSnapshot(function(querySnapshot) {
       self.questions = [];
       var numQuestions = 0;
       querySnapshot.forEach(function(doc) {
         numQuestions++;
         var item = doc.data();
 
-        var question = {question: item.question, username: "", uid: item.uid, votes: 0, id: doc.ref.id, path: doc.ref.path};
+        var question = {question: item.question, username: "", uid: item.uid, votes: 0, 
+                        timestamp: item.timestamp, id: doc.ref.id, path: doc.ref.path};
 
         self.getUsername(item.uid).get().then(username => {
           question.username = username.data().username;
@@ -55,7 +76,8 @@ export class HomePage implements OnInit {
   }
 
   sortQuestions() {
-    this.questions.sort((a,b) => b.votes - a.votes); 
+    // TODO: add sort by timestamp (replace property)
+    this.questions.sort((a,b) => b.votes - a.votes);
   }
 
   refreshQuestions(event) {
@@ -119,5 +141,19 @@ export class HomePage implements OnInit {
     } else {
       alert("You must be signed in to vote on content.");
     }
+  }
+
+  async presentPopover(event) {
+    console.log("presenting popover");
+    const popover = await this.popoverController.create({
+      component: FilterDateHomeComponent,
+      event: event,
+      translucent: true
+    });
+    return await popover.present();
+  }
+
+  setCutoff(cutoff) {
+    this.cutoffDate = new Date(Date.now() - cutoff);
   }
 }
