@@ -127,4 +127,8 @@ export class QuestionPage implements OnInit {
     }
   }
 
+  routeHome() {
+    this.router.navigate(["../tabs/home"]);
+  }
+
 }
