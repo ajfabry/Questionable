@@ -12,13 +12,21 @@ import { sum, values } from 'lodash';
 export class HomePage implements OnInit {
 
   questions: Array<any>;
+  toProfile = false;
 
   constructor(
     public router: Router,
     public service: Service
-  ) {}
+  ) 
+  {
+    this.service.getObservable().subscribe((data) => {
+      if (data.page == "HomePage")
+        this.ngOnInit();
+    })
+  }
 
   ngOnInit() {
+    this.toProfile = false;
     var self = this;
 
     this.service.db.collection("questions").onSnapshot(function(querySnapshot) {
@@ -27,8 +35,12 @@ export class HomePage implements OnInit {
       querySnapshot.forEach(function(doc) {
         numQuestions++;
         var item = doc.data();
-        
-        var question = {question: item.question, votes: 0, id: doc.ref.id, path: doc.ref.path};
+
+        var question = {question: item.question, username: "", uid: item.uid, votes: 0, id: doc.ref.id, path: doc.ref.path};
+
+        self.getUsername(item.uid).get().then(username => {
+          question.username = username.data().username;
+        });
 
         self.getQuestionVotes(question).get().then(upvotes => {
           question.votes = sum(values(upvotes.data()));
@@ -54,7 +66,12 @@ export class HomePage implements OnInit {
   }
 
   goToQuestion(question) {
-    this.router.navigate(["/question", question]);
+    if(this.toProfile){
+      this.goToProfile(question);
+    }
+    else {
+      this.router.navigate(["/question", question]);
+    }
   }
 
   goToAskQuestion() {
@@ -72,11 +89,24 @@ export class HomePage implements OnInit {
   }
 
   profile() {
-    this.router.navigate(['/profile-page']);
+    this.router.navigate(['/profile-page', firebase.auth().currentUser]);
+  }
+
+  goToProfile(question) {
+    this.toProfile = false;
+    this.router.navigate(['/profile-page', question]);
+  }
+
+  setToProfile() {
+    this.toProfile = true;
   }
 
   getQuestionVotes(question) {
     return this.service.db.doc(question.path).collection("votes").doc("votes");
+  }
+
+  getUsername(uid) {
+    return this.service.db.collection("username").doc(uid);
   }
 
   updateVote(question, vote) {

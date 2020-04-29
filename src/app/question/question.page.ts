@@ -14,12 +14,19 @@ export class QuestionPage implements OnInit {
   currentQuestion: any;
   answers: Array<any>;
   docRef: any;
+  toProfile = false;
 
   constructor (
     private route: ActivatedRoute,
     public service: Service,
     public router: Router
-  ) {}
+  ) 
+  {
+    this.service.getObservable().subscribe((data) => {
+      if (data.page == "QuestionPage")
+        this.ngOnInit();
+    })
+  }
 
   ngOnInit() {
     this.route.params.subscribe(
@@ -27,6 +34,8 @@ export class QuestionPage implements OnInit {
         this.currentQuestion = question;
       }
     )
+    
+    this.toProfile = false;
 
     this.docRef = this.service.db.doc(this.currentQuestion.path);
       
@@ -39,8 +48,14 @@ export class QuestionPage implements OnInit {
         numAnswers++;
         var item = doc.data();
 
-        var answer = {question: item.question, answer: item.answer, votes: 0, id: doc.ref.id, path: doc.ref.path};
-            
+        var answer = {question: item.question, answer: item.answer, username: "", uid: item.uid, votes: 0, id: doc.ref.id, path: doc.ref.path};
+        
+        if(item.uid!=null){
+          self.getUsername(item.uid).get().then(username => {
+            answer.username = username.data().username;
+          });
+        }
+
         self.getQuestionVotes(answer).get().then(upvotes => {
           answer.votes = sum(values(upvotes.data()));
           self.answers.push(answer);
@@ -66,7 +81,7 @@ export class QuestionPage implements OnInit {
 
   goToAnswerQuestion(question) {
     if(this.service.loggedIn()) {
-      this.router.navigate(['/answer-question']);
+      this.router.navigate(['/answer-question', question]);
     }
     else {
       alert("You must be signed in to answer a question.");
@@ -75,11 +90,29 @@ export class QuestionPage implements OnInit {
   }
 
   goToQuestion(question) {
-    this.router.navigate(["/question", question]);
+    if(this.toProfile) {
+      this.goToProfile(question);
+    }
+    else {
+      this.router.navigate(["/question", question]);
+    }
+  }
+
+  goToProfile(answer) {
+    this.toProfile = false;
+    this.router.navigate(['/profile-page', answer]);
+  }
+
+  setToProfile() {
+    this.toProfile = true;
   }
 
   getQuestionVotes(question) {
     return this.service.db.doc(question.path).collection("votes").doc("votes");
+  }
+
+  getUsername(uid) {
+    return this.service.db.collection("username").doc(uid);
   }
 
   updateVote(question, vote) {

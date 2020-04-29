@@ -2,7 +2,9 @@
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-button *ngIf="!this.service.loggedIn()" (click)="login()">Login</ion-button>
-      <ion-button *ngIf="this.service.loggedIn()" (click)="profile()">Profile</ion-button>
+      <ion-button *ngIf="this.service.loggedIn()" (click)="profile()">
+        <ion-icon name="person-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
     <ion-buttons slot="end">
       <ion-button *ngIf="this.service.loggedIn()" (click)="dmMenu()">
@@ -11,6 +13,7 @@
     </ion-buttons>
     <ion-title>Questionable</ion-title>
   </ion-toolbar>
+  <ion-button expand="block" (click)="goToAskQuestion()">Ask A Question</ion-button>
 </ion-header>
 
 <ion-content>
@@ -20,11 +23,15 @@
   <ion-item *ngIf="!this.service.loggedIn()">
     <h1 align="center">Here you'll see all the questions that other users have posted.</h1>
   </ion-item>
-  <ion-button expand="block" (click)="goToAskQuestion()">Ask A Question</ion-button>
   <ion-list>
     <ion-item *ngFor="let question of questions">
       <app-vote [currentQuestion]="question" slot="start"></app-vote>
-      <h4 (click)="goToQuestion(question)">{{ question.question }}</h4>
+      <ion-label (click)="goToQuestion(question)">
+        <h6 class="user-info" (click)="setToProfile()">
+          <i><b>{{ question.username }}</b> asked:</i>
+        </h6>
+        <h2 class="ion-text-wrap">{{ question.question }}</h2>
+      </ion-label>
     </ion-item>
   </ion-list>
 </ion-content>

@@ -14,6 +14,7 @@ export class SignupPage implements OnInit {
     password:""
   };
   username="";
+  numPosts=0;
 
   constructor( private router: Router) { }
 
@@ -47,7 +48,8 @@ export class SignupPage implements OnInit {
         var db = firebase.firestore();
         
         db.collection("username").doc(user.uid).set({
-          "username": self.username
+          "username": self.username,
+          "numPosts": self.numPosts
         });
 
 		  self.router.navigate(["../tabs/home"]);
