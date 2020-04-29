@@ -19,7 +19,12 @@ export class ProfilePagePage implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private service: Service
-  ) {}
+  ) {
+    this.service.getObservable().subscribe((data) => {
+      if (data.page == "ProfilePage")
+        this.ngOnInit();
+    })
+  }
 
   ngOnInit() { 
     this.route.params.subscribe(
@@ -86,5 +91,9 @@ export class ProfilePagePage implements OnInit {
 
   isThisYou() {
     return this.uid==firebase.auth().currentUser.uid
+  }
+
+  editProfile() {
+    this.router.navigate(["/edit-profile"]);
   }
 }

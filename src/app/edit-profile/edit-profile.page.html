@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Edit Profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label color="primary" position="floating">Input a New Username</ion-label>
+    <ion-input type="text" [(ngModel)]="newUsername" required></ion-input>
+  </ion-item>
+  <ion-button class="submit-btn" expand="block" type="submit" (click)="edit()">Submit</ion-button>
+</ion-content>

@@ -7,6 +7,7 @@
       User Profile
     </ion-title>
     <ion-buttons slot="end">
+      <ion-button *ngIf="isThisYou()" (click)="editProfile()">Edit</ion-button>
       <ion-button (click)="logout()">
         <ion-icon name="log-out-outline"></ion-icon>
       </ion-button>
