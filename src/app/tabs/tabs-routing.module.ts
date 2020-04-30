@@ -12,6 +12,10 @@ const routes: Routes = [
         loadChildren: () => import('../home/home.module').then( m => m.HomePageModule)
       },
       {
+        path: 'local',
+        loadChildren: () => import('../local/local.module').then( m => m.LocalPageModule)
+      },
+      {
         path: '',
         redirectTo: '/tabs/home',
         pathMatch: 'full'
