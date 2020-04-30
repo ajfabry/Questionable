@@ -119,6 +119,8 @@ export class LocalPage implements OnInit {
           this.questions = self.questions;
         });
         
+        self = this;
+
         this.service.db.collection("questions").where("timestamp", '>', startDate).onSnapshot(function(querySnapshot) {
           self.questions = [];
           self.clearMarkers();
@@ -156,6 +158,37 @@ export class LocalPage implements OnInit {
                 title: question.path
               })
               self.markers.push(marker);
+
+              marker.addListener('click', function() {
+                console.log(marker.getTitle());
+                var question = {question: "", path: ""};
+                self.service.db.doc(marker.getTitle()).get().then(data=> {
+
+                  let docData = data.data();
+                  question.question = docData.question;
+                  question.path = data.ref.path;
+
+                  self.homePage.goToQuestion(question);
+                });
+              });
+
+              async function waitForMap() {
+                if (typeof self.map === "undefined") {
+                  await setTimeout(() => {
+                    waitForMap();
+                  }, 500);
+                } else {
+                  return;
+                }
+              }
+
+              waitForMap();
+
+              // Refresh after first load
+              if (typeof self.map.getBounds() === "undefined") {
+                self.ngOnInit();
+                return;
+              }
               
               if (self.map.getBounds().contains(marker.getPosition())) {
                 
