@@ -106,6 +106,7 @@ export class LocalPage implements OnInit {
                 question.geopoint = docData.location;
                 self.homePage.getQuestionVotes(question).get().then(upvotes => {
                   question.votes = sum(values(upvotes.data()));
+                  self.questions = self.homePage.sortQuestions(self.questions);
                 });
               });
               self.questions.push(question);
