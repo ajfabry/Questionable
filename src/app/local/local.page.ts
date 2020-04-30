@@ -134,21 +134,6 @@ export class LocalPage implements OnInit {
           center: mylocation
         });
     });
-
-    // let watch = this.geolocation.watchPosition();
-
-    // watch.subscribe((data) => {
-    //   console.log(data);
-    //   let updatelocation = new google.maps.LatLng(data.coords.latitude,data.coords.longitude);
-    //   let image = 'assets/icon/favicon.png';
-    //   this.addMarker(updatelocation,image);
-    //   this.setMapOnAll(this.map);
-    // });
-
-    // this.map = new google.maps.Map(this.mapElement.nativeElement, {
-    //   zoom: 7,
-    //   center: {lat: 41.85, lng: -87.65}
-    // });
   }
 
   addMarker(location, image) {
