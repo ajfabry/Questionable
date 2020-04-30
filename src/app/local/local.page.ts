@@ -68,16 +68,14 @@ export class LocalPage implements OnInit {
         zoom: 15,
         center: mylocation
       });
+
       this.map.addListener('center_changed', function() {
         self.questions = [];
         var bounds = self.map.getBounds();
-        // console.log(self.markers);
+
         self.markers.forEach((marker) => {
           if (bounds.contains(marker.getPosition())) {
-            // console.log("question in view");
-            // console.log(marker.getTitle());
             let path = marker.getTitle();
-
             var question = {question: "", username: "", uid: "", votes: 0, timestamp: new Date(), id: "", path: "", geopoint: {latitude: 0, longitude: 0}};
             self.service.db.doc(path).get().then(data => {
               let docData = data.data();
@@ -90,43 +88,20 @@ export class LocalPage implements OnInit {
               question.id = data.ref.id;
               question.path = data.ref.path;
               question.geopoint = docData.location;
-              console.log(question);
               self.homePage.getQuestionVotes(question).get().then(upvotes => {
                 question.votes = sum(values(upvotes.data()));
               });
-  
             });
-            // console.log("pushing: ");
-            // console.log(question);
             self.questions.push(question);
-
-
-            // self.service.db.doc(item.path).get().then(data=> {
-            //   post.question = data.data().question;
-            //   console.log(post.question);
-            //   post.timestamp = data.data().timestamp;
-            // });
-            // //console.log(question);
-            
-            
-            // //console.log(item);
-            // var path = item.path;
-            // console.log(path);
-            // var votes;
-            // self.getQuestionVotes(path).get().then(upvotes => {
-            //   post.votes = sum(values(upvotes.data()));
-            //   self.posts.push(post);
-            //   console.log(post);
-            //   self.addToVotes(post.votes);
-            // });
-
           }
         });
+
         this.questions = self.questions;
       });
       
       this.service.db.collection("questions").where("timestamp", '>', startDate).onSnapshot(function(querySnapshot) {
         self.questions = [];
+        self.clearMarkers();
         self.markers = [];
         var numQuestions = 0;
         querySnapshot.forEach(function(doc) {
@@ -163,8 +138,6 @@ export class LocalPage implements OnInit {
             self.markers.push(marker);
             
             if (self.map.getBounds().contains(marker.getPosition())) {
-              console.log("marker is in view");
-              console.log(marker);
               
               marker.setMap(self.map);
               
