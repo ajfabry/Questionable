@@ -61,45 +61,53 @@ export class ProfilePagePage implements OnInit {
     if (this.service.loggedIn()) {
       this.service.db.collection("username").doc(this.uid).get().then(username => {
         userA=username.data().username;
-      });
-      this.service.db.collection("username").doc(firebase.auth().currentUser.uid).get().then(username => {
-        userB=username.data().username;
-      });
-      this.service.db.collection("chats").doc(pChatName).get().then(docSnapshot => {
-        if (docSnapshot.exists) {
-          // let navigationExtras: NavigationExtras = {
-          //   queryParams: {
-          //     special: pChatName
-          //   }
-          // }
-          // this.router.navigate(['/dm-user'], navigationExtras);
-          let chat = {pChatName:pChatName, username:userA};
-          this.router.navigate(['/dm-user', chat]);
-        }
-        else{
-          let entry = {
-            "UserA":userA,
-            "UserB":userB,
-            "messages":[]
-          };
-          this.service.db.collection("chats").doc(pChatName).set(entry);
-          console.log("created document " + pChatName + " in chats");
-          let convEntry = {
-            "UserA":userA,
-            "UserB":userB,
-            "roomName":pChatName
-          }
-          this.service.db.collection("username").doc(this.uid).collection("conversations").doc().set(convEntry);
-          this.service.db.collection("username").doc(firebase.auth().currentUser.uid).collection("conversations").doc().set(convEntry);
-          console.log("added chat " + pChatName + " to " + userA + " and " + userB);
-          // let navigationExtras: NavigationExtras = {
-          //   queryParams: {
-          //     special: pChatName
-          //   }
-          // }
-          let chat = {pChatName:pChatName, username:userA};
-          this.router.navigate(['/dm-user', chat]);
-        }
+        this.service.db.collection("username").doc(firebase.auth().currentUser.uid).get().then(username => {
+          userB=username.data().username;
+          this.service.db.collection("chats").doc(pChatName).get().then(docSnapshot => {
+            if (docSnapshot.exists) {
+              // let navigationExtras: NavigationExtras = {
+              //   queryParams: {
+              //     special: pChatName
+              //   }
+              // }
+              // this.router.navigate(['/dm-user'], navigationExtras);
+              let chat;
+              this.service.db.collection("chats").doc(pChatName).get().then(doc => {
+                if(doc.data().UserA == userB){
+                  chat = {pChatName:pChatName, username:userA};
+                }
+                else{
+                  chat = {pChatName:pChatName, username:userB};
+                }
+                this.router.navigate(['/dm-user', chat]);
+              });
+              }
+              else{
+                let entry = {
+                  "UserA":userA,
+                  "UserB":userB,
+                  "messages":[]
+                };
+                this.service.db.collection("chats").doc(pChatName).set(entry);
+                console.log("created document " + pChatName + " in chats");
+                let convEntry = {
+                  "UserA":userA,
+                  "UserB":userB,
+                  "roomName":pChatName
+                }
+                this.service.db.collection("username").doc(this.uid).collection("conversations").doc().set(convEntry);
+                this.service.db.collection("username").doc(firebase.auth().currentUser.uid).collection("conversations").doc().set(convEntry);
+                console.log("added chat " + pChatName + " to " + userA + " and " + userB);
+                // let navigationExtras: NavigationExtras = {
+                //   queryParams: {
+                //     special: pChatName
+                //   }
+                // }
+                let chat = {pChatName:pChatName, username:userA};
+                this.router.navigate(['/dm-user', chat]);
+              }
+            });
+        });
       });
     }
     else{

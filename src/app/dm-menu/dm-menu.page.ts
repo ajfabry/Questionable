@@ -11,39 +11,52 @@ import { Service } from '../question.service';
 export class DmMenuPage implements OnInit {
 
   chats = [];
+  user = '';
   ref = firebase.database().ref('chats/');
   //username: string = '';
   constructor(public router: Router, public service: Service) {
-    this.ref.on('value', resp => {
-      this.chats = [];
-      this.chats = snapshotToArray(resp);
-    });
+    // this.ref.on('value', resp => {
+    //   this.chats = [];
+    //   this.chats = snapshotToArray(resp);
+    // });
   }
  
   ngOnInit() {
+    
     var currentUser = firebase.auth().currentUser;
     var self = this;
-    let user;
+    //debugger
     if (this.service.loggedIn()) {
-      console.log("logged in as " + user);
-      self.service.db.collection("username").doc(currentUser.uid).get().then(username => {
-        user=username.data().username;
-      });
-      this.service.db.collection("username").doc(currentUser.uid).collection("conversations").onSnapshot(conversationList => {
-        self.chats = [];
-        conversationList.forEach(doc => {
-          let conversation = doc.data();
-          if(conversation.UserA==user){
-            self.chats.push({username:conversation.UserB,pChatName:conversation.roomName});
-          }
-          else{
-            self.chats.push({username:conversation.UserA,pChatName:conversation.roomName});
-          }
+      //console.log("logged in as " + this.user);
+      //debugger
+      this.service.db.collection("username").doc(currentUser.uid).get().then(username => {
+        this.user=username.data().username;
+        console.log("logged in as " + this.user);
+        this.service.db.collection("username").doc(currentUser.uid).collection("conversations").onSnapshot(conversationList => {
+          self.chats = [];
+          conversationList.forEach(doc => {
+            let conversation = doc.data();
+            if(conversation.UserA==this.user){
+              self.chats.push({username:conversation.UserB,pChatName:conversation.roomName});
+            }
+            else{
+              self.chats.push({username:conversation.UserA,pChatName:conversation.roomName});
+            }
+          })
+          this.chats = self.chats;
+          //this.user = self.user;
+          //console.log(this.chats);
         })
-        this.chats = self.chats;
-        //console.log(this.chats);
-      })
+      });
+      
     }
+  }
+
+  refreshQuestions(event) {
+    this.ngOnInit();
+    setTimeout(() => {
+      event.target.complete();
+    }, 2000);
   }
 
   loadUsername(uid) {
@@ -62,14 +75,14 @@ export class DmMenuPage implements OnInit {
   }
 }
 
-export const snapshotToArray = snapshot => {
-  let returnArr = [];
+// export const snapshotToArray = snapshot => {
+//   let returnArr = [];
 
-  snapshot.forEach(childSnapshot => {
-      let item = childSnapshot.val();
-      item.key = childSnapshot.key;
-      returnArr.push(item);
-  });
+//   snapshot.forEach(childSnapshot => {
+//       let item = childSnapshot.val();
+//       item.key = childSnapshot.key;
+//       returnArr.push(item);
+//   });
 
-  return returnArr;
-};
+//   return returnArr;
+// };
