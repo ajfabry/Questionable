@@ -10,10 +10,7 @@
   <!-- <ion-refresher slot="fixed" (ionRefresh)="refreshQuestions($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher> -->
-  <!-- 
-  <ion-item *ngIf="!this.service.loggedIn()">
-    <h1 align="center">Here you'll see all the questions that other users have posted.</h1>
-  </ion-item>
+  
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-button (click)="presentPopover($event)">
@@ -21,12 +18,12 @@
       </ion-button>
     </ion-buttons>
     <ion-label (click)="presentPopover($event)">{{ this.cutoffDisplay }}</ion-label>
-    <ion-buttons slot="end">
+    <!-- <ion-buttons slot="end">
       <ion-button (click)="presentSortPopover($event)">
         <ion-icon name="filter-outline"></ion-icon>
       </ion-button>
-    </ion-buttons>
-  </ion-toolbar> -->
+    </ion-buttons> -->
+  </ion-toolbar>
   <ion-list>
     <ion-item *ngFor="let question of questions">
       <app-vote [currentQuestion]="question" slot="start"></app-vote>

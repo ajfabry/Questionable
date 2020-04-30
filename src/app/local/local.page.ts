@@ -7,6 +7,9 @@ import { sum, values } from 'lodash';
 import { HomePage } from '../home/home.page';
 import { Service } from '../question.service';
 
+import { PopoverController } from '@ionic/angular';
+import { FilterDateLocalComponent } from './filter-date-local/filter-date-local.component';
+
 declare var google: any;
 
 @Component({
@@ -31,12 +34,18 @@ export class LocalPage implements OnInit {
     public platform: Platform,
     private geolocation: Geolocation,
     public homePage: HomePage,
-    public service: Service
+    public service: Service,
+    public popoverController: PopoverController
   ) 
   { 
-    // platform.ready().then(() => {
-    //   this.initMap();
-    // });
+    this.service.getObservable().subscribe((data) => {
+      if (data.sort != null)
+        this.setCutoff(data.sort, data.allTime);
+      // if (data.sortMethod != null)
+      //   this.setSort(data.sortMethod);
+      if (data.page == "LocalPage")
+        this.ngOnInit();
+    })
   }
 
   ngOnInit() {
@@ -204,5 +213,22 @@ export class LocalPage implements OnInit {
 
   getLocation() {
     return this.geolocation.getCurrentPosition({ maximumAge: 3000, timeout: 5000, enableHighAccuracy: true});
+  }
+
+  async presentPopover(event) {
+    console.log("presenting popover");
+    const popover = await this.popoverController.create({
+      component: FilterDateLocalComponent,
+      event: event,
+      translucent: true
+    });
+    return await popover.present();
+  }
+
+  setCutoff(cutoff, allTime) {
+    if (allTime)
+      this.cutoffDate = new Date("0001-01-01");
+    else
+      this.cutoffDate = new Date(Date.now() - cutoff);
   }
 }
