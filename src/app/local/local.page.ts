@@ -69,7 +69,13 @@ export class LocalPage implements OnInit {
         center: mylocation
       });
       this.map.addListener('center_changed', function() {
-        
+        var bounds = self.map.getBounds();
+        self.markers.forEach((marker) => {
+          if (bounds.contains(marker.getPosition())) {
+            console.log("question in view");
+            console.log(marker.getTitle());
+          }
+        })
       });
       
       this.service.db.collection("questions").where("timestamp", '>', startDate).onSnapshot(function(querySnapshot) {
@@ -104,14 +110,15 @@ export class LocalPage implements OnInit {
             let marker = new google.maps.Marker({
               position: {lat, lng},
               map: self.map,
-              icon: imgUrl
+              icon: imgUrl,
+              title: question.question
             })
+            self.markers.push(marker);
             
             if (self.map.getBounds().contains(marker.getPosition())) {
               console.log("marker is in view");
               console.log(marker);
               
-              self.markers.push(marker);
               marker.setMap(self.map);
               
               self.homePage.getUsername(item.uid).get().then(username => {
