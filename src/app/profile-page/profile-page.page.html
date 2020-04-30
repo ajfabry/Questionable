@@ -40,5 +40,15 @@
       </h3>
     </ion-label>
   </ion-item>
+  <ion-item>
+    <ion-label>
+      <h4 class="ion-text-wrap" color="grey">
+        Total Upvotes
+      </h4>
+      <h3 class="ion-text-wrap">
+        <b>{{ this.totalUpvotes }}</b>
+      </h3>
+    </ion-label>
+  </ion-item>
   <ion-button *ngIf="!isThisYou()" expand="block" (click)="message()">Message</ion-button>
 </ion-content>

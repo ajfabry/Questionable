@@ -45,6 +45,10 @@ export class AnswerQuestionPage implements OnInit {
     docRef.collection("answers").add(entry)
     .then(newDoc => {
       console.log("Document written with ID: ", newDoc.id);
+      
+      self.service.db.collection("username").doc(uid).collection("posts").add({
+        "path": newDoc.path
+      })
 
       newDoc.collection("votes").doc("votes").set({
         [uid]: 1

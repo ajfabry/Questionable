@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Service } from '../question.service';
 import * as firebase from 'firebase';
+import { sum, values } from 'lodash';
 
 @Component({
   selector: 'app-profile-page',
@@ -12,6 +13,7 @@ export class ProfilePagePage implements OnInit {
   username;
   numPosts;
   uid;
+  totalUpvotes = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -34,11 +36,38 @@ export class ProfilePagePage implements OnInit {
   
   loadUsername(uid) {
     //var currentUser = firebase.auth().currentUser;
+    var self = this;
     
     this.service.db.collection("username").doc(uid).get().then(doc => {
       this.username = doc.data().username;
       this.numPosts = doc.data().numPosts;
     });
+    this.service.db.collection("username").doc(uid).collection("posts").onSnapshot(function(querySnapshot) {
+      //var self = this;
+      var totalUpvotes=0;
+      querySnapshot.forEach(function(doc) {
+        
+        var item = doc.data();
+        //console.log(item);
+        var path = item.path;
+        console.log(path);
+        var votes;
+        self.getQuestionVotes(path).get().then(upvotes => {
+          votes = sum(values(upvotes.data()));
+          console.log(votes);
+          self.addToVotes(votes);
+        });
+      });
+    });
+    
+  }
+
+  getQuestionVotes(path) {
+    return this.service.db.doc(path).collection("votes").doc("votes");
+  }
+
+  addToVotes(votes) {
+    this.totalUpvotes = this.totalUpvotes + votes;
   }
   
   message() {
