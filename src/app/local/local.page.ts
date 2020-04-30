@@ -71,6 +71,7 @@ export class LocalPage implements OnInit {
       this.map.addListener('center_changed', function() {
         self.questions = [];
         var bounds = self.map.getBounds();
+        console.log(self.markers);
         self.markers.forEach((marker) => {
           if (bounds.contains(marker.getPosition())) {
             console.log("question in view");
@@ -81,16 +82,19 @@ export class LocalPage implements OnInit {
             self.service.db.doc(path).get().then(data => {
               let docData = data.data();
               question.question = docData.question;
-              question.username = docData.username;
+              self.homePage.getUsername(docData.uid).get().then(username => {
+                question.username = username.data().username;
+              });
               question.uid = docData.uid;
-              question.votes = docData.votes;
               question.timestamp = docData.timestamp;
-              question.id = docData.id;
-              question.path = docData.path;
-              question.geopoint = docData.geopoint;
+              question.id = data.ref.id;
+              question.path = data.ref.path;
+              question.geopoint = docData.location;
+              console.log(question);
+  
             });
+            console.log("pushing: ");
             console.log(question);
-
             self.questions.push(question);
 
 
