@@ -36,6 +36,9 @@ export class LocalPage implements OnInit {
   { 
     platform.ready().then(() => {
       this.initMap();
+      setTimeout(() => {
+        this.refreshLocal();
+      }, 2000);
     });
   }
 
@@ -83,7 +86,7 @@ export class LocalPage implements OnInit {
           context.fillText(question.question, 5, 20);
           context.globalCompositeOperation = "destination-over";
           context.fillStyle = "#ffffff";
-          context.fillRect(0,0,context.measureText(question.question).width + 10,canvas.height);//for white background
+          context.fillRect(0,0,context.measureText(question.question).width + 10,canvas.height);
           context.globalCompositeOperation = "source-over";
           context.lineWidth = 2;
           context.strokeStyle="#000000";
@@ -124,6 +127,10 @@ export class LocalPage implements OnInit {
       })
       this.questions = self.questions;
     });
+  }
+
+  refreshLocal() {
+    this.ngOnInit();
   }
 
   initMap() {
