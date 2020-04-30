@@ -42,6 +42,11 @@ export class LocalPage implements OnInit {
   ngOnInit() {
     var self = this;
 
+    var myLocation = {};
+    this.getLocation().then((resp) => {
+      myLocation = new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude);
+    });
+
     let startDate = this.cutoffDate || new Date(Date.now() - 24 * 60 * 60 * 1000);
 
     if (startDate < new Date(Date.now() - 366 * 24 * 60 * 60 * 1000))
@@ -66,33 +71,55 @@ export class LocalPage implements OnInit {
 
         var question = {question: item.question, username: "", uid: item.uid, votes: 0, timestamp: item.timestamp, id: doc.ref.id, path: doc.ref.path, geopoint: item.location};
 
-        console.log("adding marker at " + question.geopoint);
+        console.log("adding marker at:");
+        console.log(question.geopoint);
         if (question.geopoint != undefined) {
+          var canvas : any = document.getElementById('textCanvas');
+          canvas.width = 400;
+          canvas.height = 30;
+          var context = canvas.getContext('2d');
+          context.fillStyle = "black";
+          context.font = "20px Arial";
+          context.fillText(question.question, 5, 20);
+          context.globalCompositeOperation = "destination-over";
+          context.fillStyle = "#ffffff";
+          context.fillRect(0,0,context.measureText(question.question).width + 10,canvas.height);//for white background
+          context.globalCompositeOperation = "source-over";
+          context.lineWidth = 2;
+          context.strokeStyle="#000000";
+          context.strokeRect(0, 0, context.measureText(question.question).width + 10, canvas.height);
+          let imgUrl = context.canvas.toDataURL();
+          console.log(imgUrl);
+          
+
           let lat = question.geopoint.latitude;
           let lng = question.geopoint.longitude;
           let marker = new google.maps.Marker({
             position: {lat, lng},
             map: self.map,
-            icon: "assets/icon/alticon.png"
+            icon: imgUrl
           })
           
           self.markers.push(marker);
           marker.setMap(self.map);
+
+
+
           
+          self.homePage.getUsername(item.uid).get().then(username => {
+            question.username = username.data().username;
+          });
+          
+          self.homePage.getQuestionVotes(question).get().then(upvotes => {
+            question.votes = sum(values(upvotes.data()));
+            self.questions.push(question);
+            if (self.questions.length == numQuestions) {
+              self.questions = self.homePage.sortQuestions(self.questions);
+            }
+          });
         }
       
           
-        self.homePage.getUsername(item.uid).get().then(username => {
-          question.username = username.data().username;
-        });
-        
-        self.homePage.getQuestionVotes(question).get().then(upvotes => {
-          question.votes = sum(values(upvotes.data()));
-          self.questions.push(question);
-          if (self.questions.length == numQuestions) {
-            self.questions = self.homePage.sortQuestions(self.questions);
-          }
-        });
         
       })
       this.questions = self.questions;
