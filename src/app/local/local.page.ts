@@ -42,12 +42,15 @@ export class LocalPage implements OnInit {
   ) 
   { 
     this.service.getObservable().subscribe((data) => {
-      if (data.sort != null)
+      if (data.sort != null) {
         this.setCutoff(data.sort, data.allTime);
-      if (data.sortMethod != null)
+        this.loadMap = true;
+      }
+      if (data.sortMethod != null) {
         this.setSort(data.sortMethod);
-      if (data.page == "LocalPage") {
         this.loadMap = false;
+      }
+      if (data.page == "LocalPage") {
         this.ngOnInit();
         this.loadMap = true;
       }
