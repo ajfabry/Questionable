@@ -6,6 +6,8 @@ import { IonicModule } from '@ionic/angular';
 
 import { LocalPageRoutingModule } from './local-routing.module';
 
+import { ComponentsModule } from '../components/components.module';
+
 import { LocalPage } from './local.page';
 import { HomePage } from '../home/home.page';
 
@@ -14,7 +16,8 @@ import { HomePage } from '../home/home.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    LocalPageRoutingModule
+    LocalPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [LocalPage],
   providers: [HomePage]
