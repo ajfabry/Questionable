@@ -14,6 +14,7 @@ export class ProfilePagePage implements OnInit {
   numPosts;
   uid;
   totalUpvotes = 0;
+  posts:Array<any>;
 
   constructor(
     private route: ActivatedRoute,
@@ -43,21 +44,32 @@ export class ProfilePagePage implements OnInit {
       this.numPosts = doc.data().numPosts;
     });
     this.service.db.collection("username").doc(uid).collection("posts").onSnapshot(function(querySnapshot) {
-      //var self = this;
-      var totalUpvotes=0;
+      self.posts=[];
+      //var totalUpvotes=0;
       querySnapshot.forEach(function(doc) {
-        
         var item = doc.data();
+        var post = {question: "", timestamp: null, votes: 0, id: doc.ref.id, path: item.path}
+      
+        self.service.db.doc(item.path).get().then(data=> {
+          post.question = data.data().question;
+          console.log(post.question);
+          post.timestamp = data.data().timestamp;
+        });
+        //console.log(question);
+        
+        
         //console.log(item);
         var path = item.path;
         console.log(path);
         var votes;
         self.getQuestionVotes(path).get().then(upvotes => {
-          votes = sum(values(upvotes.data()));
-          console.log(votes);
-          self.addToVotes(votes);
+          post.votes = sum(values(upvotes.data()));
+          self.posts.push(post);
+          console.log(post);
+          self.addToVotes(post.votes);
         });
       });
+      this.posts = self.posts;
     });
     
   }
@@ -89,5 +101,9 @@ export class ProfilePagePage implements OnInit {
     else {
       return false;
     }
+  }
+
+  goToQuestion(question) {
+    this.router.navigate(["/question", question]);
   }
 }
