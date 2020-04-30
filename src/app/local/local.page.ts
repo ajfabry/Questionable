@@ -69,13 +69,53 @@ export class LocalPage implements OnInit {
         center: mylocation
       });
       this.map.addListener('center_changed', function() {
+        self.questions = [];
         var bounds = self.map.getBounds();
         self.markers.forEach((marker) => {
           if (bounds.contains(marker.getPosition())) {
             console.log("question in view");
             console.log(marker.getTitle());
+            let path = marker.getTitle();
+
+            var question = {question: "", username: "", uid: "", votes: 0, timestamp: new Date(), id: "", path: "", geopoint: {latitude: 0, longitude: 0}};
+            self.service.db.doc(path).get().then(data => {
+              let docData = data.data();
+              question.question = docData.question;
+              question.username = docData.username;
+              question.uid = docData.uid;
+              question.votes = docData.votes;
+              question.timestamp = docData.timestamp;
+              question.id = docData.id;
+              question.path = docData.path;
+              question.geopoint = docData.geopoint;
+            });
+            console.log(question);
+
+            self.questions.push(question);
+
+
+            // self.service.db.doc(item.path).get().then(data=> {
+            //   post.question = data.data().question;
+            //   console.log(post.question);
+            //   post.timestamp = data.data().timestamp;
+            // });
+            // //console.log(question);
+            
+            
+            // //console.log(item);
+            // var path = item.path;
+            // console.log(path);
+            // var votes;
+            // self.getQuestionVotes(path).get().then(upvotes => {
+            //   post.votes = sum(values(upvotes.data()));
+            //   self.posts.push(post);
+            //   console.log(post);
+            //   self.addToVotes(post.votes);
+            // });
+
           }
-        })
+        });
+        this.questions = self.questions;
       });
       
       this.service.db.collection("questions").where("timestamp", '>', startDate).onSnapshot(function(querySnapshot) {
@@ -111,7 +151,7 @@ export class LocalPage implements OnInit {
               position: {lat, lng},
               map: self.map,
               icon: imgUrl,
-              title: question.question
+              title: question.path
             })
             self.markers.push(marker);
             
