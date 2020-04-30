@@ -22,12 +22,14 @@ export class VoteComponent implements OnInit {
 
   ngOnInit() {
     let currentUser = firebase.auth().currentUser;
-    this.homePage.getQuestionVotes(this.currentQuestion).onSnapshot(upvotes => {
-      this.voteCount = sum(values(upvotes.data()));
-
-      if (this.service.loggedIn() && upvotes != null && upvotes.data() != null)
-        this.userVote = upvotes.data()[currentUser.uid];
-    });
+    if (this.currentQuestion.path != undefined && this.currentQuestion.path != "") {
+      this.homePage.getQuestionVotes(this.currentQuestion).onSnapshot(upvotes => {
+        this.voteCount = sum(values(upvotes.data()));
+        
+        if (this.service.loggedIn() && upvotes != null && upvotes.data() != null)
+          this.userVote = upvotes.data()[currentUser.uid];
+      });
+    }
   }
 
   vote(choice) {
