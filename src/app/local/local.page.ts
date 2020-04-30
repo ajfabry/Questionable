@@ -64,13 +64,28 @@ export class LocalPage implements OnInit {
         numQuestions++;
         var item = doc.data();
 
-        var question = {question: item.question, username: "", uid: item.uid, votes: 0, 
-                        timestamp: item.timestamp, id: doc.ref.id, path: doc.ref.path};
+        var question = {question: item.question, username: "", uid: item.uid, votes: 0, timestamp: item.timestamp, id: doc.ref.id, path: doc.ref.path, geopoint: item.location};
 
+        console.log("adding marker at " + question.geopoint);
+        if (question.geopoint != undefined) {
+          let lat = question.geopoint.latitude;
+          let lng = question.geopoint.longitude;
+          let marker = new google.maps.Marker({
+            position: {lat, lng},
+            map: self.map,
+            icon: "assets/icon/alticon.png"
+          })
+          
+          self.markers.push(marker);
+          marker.setMap(self.map);
+          
+        }
+      
+          
         self.homePage.getUsername(item.uid).get().then(username => {
           question.username = username.data().username;
         });
-
+        
         self.homePage.getQuestionVotes(question).get().then(upvotes => {
           question.votes = sum(values(upvotes.data()));
           self.questions.push(question);
@@ -78,13 +93,14 @@ export class LocalPage implements OnInit {
             self.questions = self.homePage.sortQuestions(self.questions);
           }
         });
-      });
+        
+      })
       this.questions = self.questions;
     });
   }
 
   initMap() {
-    this.geolocation.getCurrentPosition({ maximumAge: 3000, timeout: 5000, enableHighAccuracy: true}).then((resp) => {
+    this.getLocation().then((resp) => {
         let mylocation = new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude);
         this.map = new google.maps.Map(this.mapElement.nativeElement, {
           zoom: 15,
@@ -92,22 +108,16 @@ export class LocalPage implements OnInit {
         });
     });
 
-    let watch = this.geolocation.watchPosition();
-
-    watch.subscribe((data) => {
-      console.log(data);
-      let updatelocation = new google.maps.LatLng(data.coords.latitude,data.coords.longitude);
-      let image = 'assets/icon/favicon.png';
-      this.addMarker(updatelocation,image);
-      this.setMapOnAll(this.map);
-    });
+    // let watch = this.geolocation.watchPosition();
 
     // watch.subscribe((data) => {
+    //   console.log(data);
     //   let updatelocation = new google.maps.LatLng(data.coords.latitude,data.coords.longitude);
-    //   let image = 'assets/imgs/blue-bike.png';
+    //   let image = 'assets/icon/favicon.png';
     //   this.addMarker(updatelocation,image);
     //   this.setMapOnAll(this.map);
-    // })
+    // });
+
     // this.map = new google.maps.Map(this.mapElement.nativeElement, {
     //   zoom: 7,
     //   center: {lat: 41.85, lng: -87.65}
@@ -138,4 +148,7 @@ export class LocalPage implements OnInit {
     this.markers = [];
   }
 
+  getLocation() {
+    return this.geolocation.getCurrentPosition({ maximumAge: 3000, timeout: 5000, enableHighAccuracy: true});
+  }
 }
