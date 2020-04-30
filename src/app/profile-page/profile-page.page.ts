@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { Service } from '../question.service';
 import * as firebase from 'firebase';
 
@@ -67,7 +67,14 @@ export class ProfilePagePage implements OnInit {
       });
       this.service.db.collection("chats").doc(pChatName).get().then(docSnapshot => {
         if (docSnapshot.exists) {
-          //this.router.navigate(["/dm-user", pChatName]);
+          // let navigationExtras: NavigationExtras = {
+          //   queryParams: {
+          //     special: pChatName
+          //   }
+          // }
+          // this.router.navigate(['/dm-user'], navigationExtras);
+          let chat = {pChatName:pChatName, username:userA};
+          this.router.navigate(['/dm-user', chat]);
         }
         else{
           let entry = {
@@ -76,6 +83,7 @@ export class ProfilePagePage implements OnInit {
             "messages":[]
           };
           this.service.db.collection("chats").doc(pChatName).set(entry);
+          console.log("created document " + pChatName + " in chats");
           let convEntry = {
             "UserA":userA,
             "UserB":userB,
@@ -83,13 +91,21 @@ export class ProfilePagePage implements OnInit {
           }
           this.service.db.collection("username").doc(this.uid).collection("conversations").doc().set(convEntry);
           this.service.db.collection("username").doc(firebase.auth().currentUser.uid).collection("conversations").doc().set(convEntry);
+          console.log("added chat " + pChatName + " to " + userA + " and " + userB);
+          // let navigationExtras: NavigationExtras = {
+          //   queryParams: {
+          //     special: pChatName
+          //   }
+          // }
+          let chat = {pChatName:pChatName, username:userA};
+          this.router.navigate(['/dm-user', chat]);
         }
       });
     }
     else{
       this.router.navigate(['/login']);
     }
-    this.router.navigate(["/dm-user", pChatName]);
+    
   }
 
   logout() {

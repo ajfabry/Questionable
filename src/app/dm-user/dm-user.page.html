@@ -1,13 +1,11 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>
-      Chat
-    </ion-title>
-    <ion-buttons end>
-      <button ion-button icon-only (click)="exitChat()">
-        <ion-icon name="exit"></ion-icon>
-      </button>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
     </ion-buttons>
+    <ion-title>
+      Chat with {{this.chatter}}
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -21,15 +19,15 @@
       <ng-template #message>
         <div class="chat-message" text-right *ngIf="chat.user === nickname">
           <div class="right-bubble">
-            <span class="msg-name">Me</span>
-            <span class="msg-date">{{chat.sendDate | date:'short'}}</span>
+            <span class="msg-name">Me    </span>
+            <span class="msg-date">{{chat.date | date:'short'}}</span>
             <p text-wrap>{{chat.message}}</p>
           </div>
         </div>
         <div class="chat-message" text-left *ngIf="chat.user !== nickname">
           <div class="left-bubble">
-            <span class="msg-name">{{chat.user}}</span>
-            <span class="msg-date">{{chat.sendDate | date:'short'}}</span>
+            <span class="msg-name">{{chat.username}}</span>
+            <span class="msg-date">{{chat.date | date:'short'}}</span>
             <p text-wrap>{{chat.message}}</p>
           </div>
         </div>

@@ -25,24 +25,23 @@ export class DmMenuPage implements OnInit {
     var self = this;
     let user;
     if (this.service.loggedIn()) {
+      console.log("logged in as " + user);
       self.service.db.collection("username").doc(currentUser.uid).get().then(username => {
         user=username.data().username;
       });
       this.service.db.collection("username").doc(currentUser.uid).collection("conversations").onSnapshot(conversationList => {
         self.chats = [];
         conversationList.forEach(doc => {
-          console.log("here");
           let conversation = doc.data();
-          console.log(user);
           if(conversation.UserA==user){
-            self.chats.push({username:conversation.UserB});
+            self.chats.push({username:conversation.UserB,pChatName:conversation.roomName});
           }
           else{
-            self.chats.push({username:conversation.UserA});
+            self.chats.push({username:conversation.UserA,pChatName:conversation.roomName});
           }
         })
         this.chats = self.chats;
-        console.log(this.chats);
+        //console.log(this.chats);
       })
     }
   }
