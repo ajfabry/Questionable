@@ -74,6 +74,47 @@
   --ion-color-light-contrast-rgb: 0, 0, 0;
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
+
+  --ion-color-q-green: #C9EDE7;
+  --ion-color-q-green-rgb: 201,237,231;
+  --ion-color-q-green-contrast: #000000;
+  --ion-color-q-green-contrast-rgb: 0,0,0;
+  --ion-color-q-green-shade: #b1d1cb;
+  --ion-color-q-green-tint: #ceefe9;
+
+  --ion-color-q-gray: #535353;
+  --ion-color-q-gray-rgb: 83,83,83;
+  --ion-color-q-gray-contrast: #ffffff;
+  --ion-color-q-gray-contrast-rgb: 255,255,255;
+  --ion-color-q-gray-shade: #494949;
+  --ion-color-q-gray-tint: #646464;
+  
+}
+
+.ion-color-q-gray {
+  --ion-color-base: var(--ion-color-q-gray);
+  --ion-color-base-rgb: var(--ion-color-q-gray-rgb);
+  --ion-color-contrast: var(--ion-color-q-gray-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-q-gray-contrast-rgb);
+  --ion-color-shade: var(--ion-color-q-gray-shade);
+  --ion-color-tint: var(--ion-color-q-gray-tint);
+}
+
+.ion-color-q-green {
+  --ion-color-base: var(--ion-color-q-green);
+  --ion-color-base-rgb: var(--ion-color-q-green-rgb);
+  --ion-color-contrast: var(--ion-color-q-green-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-q-green-contrast-rgb);
+  --ion-color-shade: var(--ion-color-q-green-shade);
+  --ion-color-tint: var(--ion-color-q-green-tint);
+}
+
+.label-color-q-gray {
+  --highlight-color-focused: var(--ion-color-q-gray) !important;
+}
+
+.item-has-focus ion-label.ion-color {  
+  color: var(--ion-color-base) !important;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -145,6 +186,20 @@
     --ion-color-light-contrast-rgb: 255,255,255;
     --ion-color-light-shade: #1e2023;
     --ion-color-light-tint: #383a3e;
+
+    --ion-color-q-green: #C9EDE7;
+    --ion-color-q-green-rgb: 201,237,231;
+    --ion-color-q-green-contrast: #000000;
+    --ion-color-q-green-contrast-rgb: 0,0,0;
+    --ion-color-q-green-shade: #b1d1cb;
+    --ion-color-q-green-tint: #ceefe9;
+
+    --ion-color-q-gray: #535353;
+    --ion-color-q-gray-rgb: 83,83,83;
+    --ion-color-q-gray-contrast: #ffffff;
+    --ion-color-q-gray-contrast-rgb: 255,255,255;
+    --ion-color-q-gray-shade: #494949;
+    --ion-color-q-gray-tint: #646464;
   }
 
   /*

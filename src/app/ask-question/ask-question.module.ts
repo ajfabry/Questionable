@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { AskQuestionPageRoutingModule } from './ask-question-routing.module';
 
 import { AskQuestionPage } from './ask-question.page';
+import { LocalPage } from '../local/local.page';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { AskQuestionPage } from './ask-question.page';
     IonicModule,
     AskQuestionPageRoutingModule
   ],
-  declarations: [AskQuestionPage]
+  declarations: [AskQuestionPage],
+  providers: [LocalPage]
 })
 export class AskQuestionPageModule {}

@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 
 import { FormsModule } from '@angular/forms'
 
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { HomePage } from './home/home.page';
 
 @NgModule({
@@ -21,7 +22,9 @@ import { HomePage } from './home/home.page';
     HomePage,
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    Geolocation,
+    HomePage
   ],
   bootstrap: [AppComponent]
 })
