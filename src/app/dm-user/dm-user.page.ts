@@ -47,6 +47,9 @@ export class DmUserPage implements OnInit {
       this.messages = self.messages;
     })
 
+    setTimeout(() => {
+      this.content.scrollToBottom(300);
+    }, 500);
   }
 
   // getCurrUser(){
