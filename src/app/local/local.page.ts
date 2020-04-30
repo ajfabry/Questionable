@@ -2,6 +2,11 @@ import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { NavController, Platform } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 
+import { sum, values } from 'lodash';
+
+import { HomePage } from '../home/home.page';
+import { Service } from '../question.service';
+
 declare var google: any;
 
 @Component({
@@ -15,10 +20,18 @@ export class LocalPage implements OnInit {
   map: any;
   markers = [];
 
+  questions: Array<any>;
+  cutoffDate: Date;
+  cutoffDisplay: string;
+  toProfile = false;
+  sortBy = "votes";
+
   constructor(
     public navController: NavController,
     public platform: Platform,
-    private geolocation: Geolocation
+    private geolocation: Geolocation,
+    public homePage: HomePage,
+    public service: Service
   ) 
   { 
     platform.ready().then(() => {
@@ -27,6 +40,32 @@ export class LocalPage implements OnInit {
   }
 
   ngOnInit() {
+    var self = this;
+    let startDate = "0001 01 01";
+    this.service.db.collection("questions").onSnapshot(function(querySnapshot) {
+      self.questions = [];
+      var numQuestions = 0;
+      querySnapshot.forEach(function(doc) {
+        numQuestions++;
+        var item = doc.data();
+
+        var question = {question: item.question, username: "", uid: item.uid, votes: 0, 
+                        timestamp: item.timestamp, id: doc.ref.id, path: doc.ref.path};
+
+        self.homePage.getUsername(item.uid).get().then(username => {
+          question.username = username.data().username;
+        });
+
+        self.homePage.getQuestionVotes(question).get().then(upvotes => {
+          question.votes = sum(values(upvotes.data()));
+          self.questions.push(question);
+          // if (self.questions.length == numQuestions) {
+          //   self.sortQuestions();
+          // }
+        });
+      });
+      this.questions = self.questions;
+    });
   }
 
   initMap() {

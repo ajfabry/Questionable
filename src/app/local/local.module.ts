@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { LocalPageRoutingModule } from './local-routing.module';
 
 import { LocalPage } from './local.page';
+import { HomePage } from '../home/home.page';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { LocalPage } from './local.page';
     IonicModule,
     LocalPageRoutingModule
   ],
-  declarations: [LocalPage]
+  declarations: [LocalPage],
+  providers: [HomePage]
 })
 export class LocalPageModule {}
