@@ -151,6 +151,10 @@ export class HomePage implements OnInit {
     }
   }
 
+  dmMenu() {
+    this.router.navigate(["/dm-menu"]);
+  }
+
   async presentPopover(event) {
     console.log("presenting popover");
     const popover = await this.popoverController.create({

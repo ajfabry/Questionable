@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>List of chats</ion-title>
+    <!-- <ion-buttons end>
+      <button ion-button icon-only (click)="addRoom()">
+        <ion-icon name="add-circle"></ion-icon>
+      </button>
+    </ion-buttons> -->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-refresher slot="fixed" (ionRefresh)="refreshQuestions($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-list>
+    <ion-item *ngFor="let chat of chats" (click)="goToChat(chat)">
+      <ion-label>
+        <h2 class="user-info">
+          <b>{{ chat.username }}</b>
+        </h2>
+        <h6 class="ion-text-wrap">{{ chat.mrMessage }}</h6>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

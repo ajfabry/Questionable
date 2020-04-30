@@ -8,9 +8,14 @@
         <ion-icon name="person-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button *ngIf="this.service.loggedIn()" (click)="dmMenu()">
+        <ion-icon name="chatbubbles"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     <ion-title>Questionable</ion-title>
   </ion-toolbar>
-  <ion-button expand="block" (click)="goToAskQuestion()">Ask A Question</ion-button>
+  <ion-button color="q-green" expand="block" (click)="goToAskQuestion()">Ask A Question</ion-button>
 </ion-header>
 
 <ion-content>
