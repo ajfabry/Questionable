@@ -25,12 +25,18 @@ export class AskQuestionPage implements OnInit {
     let uid = firebase.auth().currentUser.uid;
     let entry = {
       "question":this.question,
-      "uid":uid
+      "uid":uid,
+      "timestamp": new Date()
     };
 
     var self = this;
     this.service.db.collection("questions").add(entry)
     .then(function(docRef) {
+
+      self.service.db.collection("username").doc(uid).collection("posts").add({
+        "path": docRef.path
+      })
+
       docRef.collection("votes").doc("votes").set({
         [uid]: 1
       }).then(() => {

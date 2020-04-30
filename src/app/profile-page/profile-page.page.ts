@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { Service } from '../question.service';
 import * as firebase from 'firebase';
+import { sum, values } from 'lodash';
 
 @Component({
   selector: 'app-profile-page',
@@ -12,6 +13,8 @@ export class ProfilePagePage implements OnInit {
   username;
   numPosts;
   uid;
+  totalUpvotes = 0;
+  posts:Array<any>;
 
   constructor(
     private route: ActivatedRoute,
@@ -34,13 +37,49 @@ export class ProfilePagePage implements OnInit {
   
   loadUsername(uid) {
     //var currentUser = firebase.auth().currentUser;
-
-    if (this.service.loggedIn()) {
-      this.service.db.collection("username").doc(uid).get().then(doc => {
-        this.username = doc.data().username;
-        this.numPosts = doc.data().numPosts;
+    var self = this;
+    
+    this.service.db.collection("username").doc(uid).get().then(doc => {
+      this.username = doc.data().username;
+      this.numPosts = doc.data().numPosts;
+    });
+    this.service.db.collection("username").doc(uid).collection("posts").onSnapshot(function(querySnapshot) {
+      self.posts=[];
+      //var totalUpvotes=0;
+      querySnapshot.forEach(function(doc) {
+        var item = doc.data();
+        var post = {question: "", timestamp: null, votes: 0, id: doc.ref.id, path: item.path}
+      
+        self.service.db.doc(item.path).get().then(data=> {
+          post.question = data.data().question;
+          console.log(post.question);
+          post.timestamp = data.data().timestamp;
+        });
+        //console.log(question);
+        
+        
+        //console.log(item);
+        var path = item.path;
+        console.log(path);
+        var votes;
+        self.getQuestionVotes(path).get().then(upvotes => {
+          post.votes = sum(values(upvotes.data()));
+          self.posts.push(post);
+          console.log(post);
+          self.addToVotes(post.votes);
+        });
       });
-    }
+      this.posts = self.posts;
+    });
+    
+  }
+
+  getQuestionVotes(path) {
+    return this.service.db.doc(path).collection("votes").doc("votes");
+  }
+
+  addToVotes(votes) {
+    this.totalUpvotes = this.totalUpvotes + votes;
   }
   
   getChatName(uid1, uid2){
@@ -123,6 +162,15 @@ export class ProfilePagePage implements OnInit {
   }
 
   isThisYou() {
-    return this.uid==firebase.auth().currentUser.uid
+    if(this.service.loggedIn()){
+      return this.uid==firebase.auth().currentUser.uid
+    }
+    else {
+      return false;
+    }
+  }
+
+  goToQuestion(question) {
+    this.router.navigate(["/question", question]);
   }
 }

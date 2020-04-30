@@ -12,9 +12,8 @@ import { NavController } from '@ionic/angular';
 })
 export class AnswerQuestionPage implements OnInit {
   question:any;
-  answer="";
-  followup="";
-  docRef: any;
+  answer = "";
+  followup = "";
   
 
   constructor(
@@ -36,17 +35,22 @@ export class AnswerQuestionPage implements OnInit {
     let entry = {
       "answer":this.answer,
       "question":this.followup,
-      "uid":uid
+      "uid":uid,
+      "timestamp": new Date()
     };
     
-    this.docRef = this.service.db.doc(this.question.path);
+    let docRef = this.service.db.doc(this.question.path);
 
     var self = this;
-    this.docRef.collection("answers").add(entry)
-    .then(function(docRef) {
-      console.log("Document written with ID: ", docRef.id);
+    docRef.collection("answers").add(entry)
+    .then(newDoc => {
+      console.log("Document written with ID: ", newDoc.id);
+      
+      self.service.db.collection("username").doc(uid).collection("posts").add({
+        "path": newDoc.path
+      })
 
-      docRef.collection("votes").doc("votes").set({
+      newDoc.collection("votes").doc("votes").set({
         [uid]: 1
       }).then(() => {
         const increment = firebase.firestore.FieldValue.increment(1);

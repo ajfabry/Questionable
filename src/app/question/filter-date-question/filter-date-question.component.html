@@ -1,0 +1,22 @@
+<div class="date-filter">
+  <ion-list>
+    <ion-item (click)="setCutoff(60*60*1000)">
+      <ion-label>past hour</ion-label>
+    </ion-item>
+    <ion-item (click)="setCutoff(24*60*60*1000)">
+      <ion-label>past day</ion-label>
+    </ion-item>
+    <ion-item (click)="setCutoff(7*24*60*60*1000)">
+      <ion-label>past week</ion-label>
+    </ion-item>
+    <ion-item (click)="setCutoff(30*24*60*60*1000)">
+      <ion-label>past month</ion-label>
+    </ion-item>
+    <ion-item (click)="setCutoff(365*60*60*1000)">
+      <ion-label>past year</ion-label>
+    </ion-item>
+    <ion-item (click)="setCutoff(0)">
+      <ion-label>all time</ion-label>
+    </ion-item>
+  </ion-list>
+</div>
