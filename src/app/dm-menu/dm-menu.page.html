@@ -17,9 +17,8 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <ion-list>
-    <ion-item *ngFor="let chat of chats">
+    <ion-item *ngFor="let chat of chats" (click)="goToChat(chat)">
       {{chat.username}}
-      <ion-icon slot="end" name="chatbubbles" item-end (click)="goToChat(chat)"></ion-icon>
     </ion-item>
   </ion-list>
 </ion-content>

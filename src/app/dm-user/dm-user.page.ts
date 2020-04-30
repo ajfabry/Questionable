@@ -10,7 +10,7 @@ import * as firebase from 'Firebase';
   styleUrls: ['./dm-user.page.scss'],
 })
 export class DmUserPage implements OnInit {
-  //@ViewChild(Content) content: Content;
+  @ViewChild('content', {static: false}) private content: any;
   data = { date:'', username:'', message:'' };
   messages = [];
   chatName:any;
@@ -47,6 +47,9 @@ export class DmUserPage implements OnInit {
       this.messages = self.messages;
     })
 
+    setTimeout(() => {
+      this.content.scrollToBottom(300);
+    }, 500);
   }
 
   // getCurrUser(){
@@ -73,6 +76,8 @@ export class DmUserPage implements OnInit {
     console.log(this.messages);
     this.service.db.collection("chats").doc(this.chatName).update({
       messages: this.messages
+    }).then(() => {
+      this.content.scrollToBottom(300)
     });
     this.data.message = '';
   }
