@@ -17,16 +17,16 @@
         <span class="chat-content-center">{{chat.message}}</span>
       </div>
       <ng-template #message>
-        <div class="chat-message" text-right *ngIf="chat.user === nickname">
+        <div class="chat-message" text-right *ngIf="chat.username === userCurr">
           <div class="right-bubble">
             <span class="msg-name">Me    </span>
             <span class="msg-date">{{chat.date | date:'short'}}</span>
             <p text-wrap>{{chat.message}}</p>
           </div>
         </div>
-        <div class="chat-message" text-left *ngIf="chat.user !== nickname">
+        <div class="chat-message" text-left *ngIf="chat.username !== userCurr">
           <div class="left-bubble">
-            <span class="msg-name">{{chat.username}}</span>
+            <span class="msg-name">{{chat.username}}     </span>
             <span class="msg-date">{{chat.date | date:'short'}}</span>
             <p text-wrap>{{chat.message}}</p>
           </div>

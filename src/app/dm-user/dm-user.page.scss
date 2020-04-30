@@ -75,7 +75,7 @@
       }
       .left-bubble {
           position: relative;
-          background: #ffffff;
+          background: #535353;
         border-top-right-radius: .4em;
         border-bottom-left-radius: .4em;
         border-bottom-right-radius: .4em;
@@ -84,7 +84,7 @@
         span.msg-name {
           font-size: 12px;
           font-weight: bold;
-          color: blue;
+          color: rgb(255, 255, 255);
         }
         span.msg-date {
           font-size: 10px;
@@ -99,7 +99,7 @@
           width: 0;
           height: 0;
           border: 27px solid transparent;
-          border-right-color: #ffffff;
+          border-right-color: #555555;
           border-left: 0;
           border-top: 0;
           margin-top: -13.5px;
