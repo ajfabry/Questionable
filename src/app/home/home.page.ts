@@ -73,7 +73,7 @@ export class HomePage implements OnInit {
           question.votes = sum(values(upvotes.data()));
           self.questions.push(question);
           if (self.questions.length == numQuestions) {
-            self.sortQuestions();
+            self.questions = self.sortQuestions(self.questions);
           }
         });
       });
@@ -81,11 +81,11 @@ export class HomePage implements OnInit {
     });
   }
 
-  sortQuestions() {
+  sortQuestions(questions) {
     if (this.sortBy == "votes")
-      this.questions.sort((a,b) => b.votes - a.votes);
+      return questions.sort((a,b) => b.votes - a.votes);
     else if (this.sortBy == "date")
-      this.questions.sort((a,b) => b.timestamp - a.timestamp);
+      return questions.sort((a,b) => b.timestamp - a.timestamp);
   }
 
   refreshQuestions(event) {

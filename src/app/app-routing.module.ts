@@ -37,6 +37,10 @@ const routes: Routes = [
   {
     path: 'dm-user',
     loadChildren: () => import('./dm-user/dm-user.module').then( m => m.DmUserPageModule)
+  },
+  {
+    path: 'local',
+    loadChildren: () => import('./local/local.module').then( m => m.LocalPageModule)
   }
 ];
 @NgModule({
