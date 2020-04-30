@@ -29,7 +29,12 @@ export class VoteComponent implements OnInit {
         if (this.service.loggedIn() && upvotes != null && upvotes.data() != null)
           this.userVote = upvotes.data()[currentUser.uid];
       });
+    } else {
+      setTimeout(() => {
+        this.ngOnInit();
+      }, 50);
     }
+    return;
   }
 
   vote(choice) {

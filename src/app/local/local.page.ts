@@ -71,11 +71,11 @@ export class LocalPage implements OnInit {
       this.map.addListener('center_changed', function() {
         self.questions = [];
         var bounds = self.map.getBounds();
-        console.log(self.markers);
+        // console.log(self.markers);
         self.markers.forEach((marker) => {
           if (bounds.contains(marker.getPosition())) {
-            console.log("question in view");
-            console.log(marker.getTitle());
+            // console.log("question in view");
+            // console.log(marker.getTitle());
             let path = marker.getTitle();
 
             var question = {question: "", username: "", uid: "", votes: 0, timestamp: new Date(), id: "", path: "", geopoint: {latitude: 0, longitude: 0}};
@@ -91,10 +91,13 @@ export class LocalPage implements OnInit {
               question.path = data.ref.path;
               question.geopoint = docData.location;
               console.log(question);
+              self.homePage.getQuestionVotes(question).get().then(upvotes => {
+                question.votes = sum(values(upvotes.data()));
+              });
   
             });
-            console.log("pushing: ");
-            console.log(question);
+            // console.log("pushing: ");
+            // console.log(question);
             self.questions.push(question);
 
 
