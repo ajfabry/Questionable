@@ -36,8 +36,6 @@ export class AskQuestionPage implements OnInit {
         "timestamp": new Date(),
         "location": new firebase.firestore.GeoPoint(myLocation.lat, myLocation.long)
       };
-
-      // this.localPage.addMarker(myLocation, 'assets/icon/alticon.png');
       
       var self = this;
       this.service.db.collection("questions").add(entry)
