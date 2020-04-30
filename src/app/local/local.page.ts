@@ -36,9 +36,6 @@ export class LocalPage implements OnInit {
   { 
     platform.ready().then(() => {
       this.initMap();
-      setTimeout(() => {
-        this.refreshLocal();
-      }, 2000);
     });
   }
 
@@ -67,6 +64,7 @@ export class LocalPage implements OnInit {
 
     this.service.db.collection("questions").where("timestamp", '>', startDate).onSnapshot(function(querySnapshot) {
       self.questions = [];
+      self.markers = [];
       var numQuestions = 0;
       querySnapshot.forEach(function(doc) {
         numQuestions++;
@@ -95,8 +93,8 @@ export class LocalPage implements OnInit {
           console.log(imgUrl);
           
 
-          let lat = question.geopoint.latitude;
-          let lng = question.geopoint.longitude;
+          let lat = question.geopoint.latitude + (Math.random() < 0.5 ? -1 : 1) * 0.01 * Math.random();
+          let lng = question.geopoint.longitude + (Math.random() < 0.5 ? -1 : 1) * 0.01 * Math.random();
           let marker = new google.maps.Marker({
             position: {lat, lng},
             map: self.map,
