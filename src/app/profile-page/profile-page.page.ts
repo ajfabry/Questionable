@@ -38,30 +38,28 @@ export class ProfilePagePage implements OnInit {
     //var currentUser = firebase.auth().currentUser;
     var self = this;
     
-    if (this.service.loggedIn()) {
-      this.service.db.collection("username").doc(uid).get().then(doc => {
-        console.log(doc.data());
-        this.username = doc.data().username;
-        this.numPosts = doc.data().numPosts;
-      });
-      this.service.db.collection("username").doc(uid).collection("posts").onSnapshot(function(querySnapshot) {
-        //var self = this;
-        var totalUpvotes=0;
-        querySnapshot.forEach(function(doc) {
-          
-          var item = doc.data();
-          //console.log(item);
-          var path = item.path;
-          console.log(path);
-          var votes;
-          self.getQuestionVotes(path).get().then(upvotes => {
-            votes = sum(values(upvotes.data()));
-            console.log(votes);
-            self.addToVotes(votes);
-          });
+    this.service.db.collection("username").doc(uid).get().then(doc => {
+      this.username = doc.data().username;
+      this.numPosts = doc.data().numPosts;
+    });
+    this.service.db.collection("username").doc(uid).collection("posts").onSnapshot(function(querySnapshot) {
+      //var self = this;
+      var totalUpvotes=0;
+      querySnapshot.forEach(function(doc) {
+        
+        var item = doc.data();
+        //console.log(item);
+        var path = item.path;
+        console.log(path);
+        var votes;
+        self.getQuestionVotes(path).get().then(upvotes => {
+          votes = sum(values(upvotes.data()));
+          console.log(votes);
+          self.addToVotes(votes);
         });
       });
-    }
+    });
+    
   }
 
   getQuestionVotes(path) {
@@ -85,6 +83,11 @@ export class ProfilePagePage implements OnInit {
   }
 
   isThisYou() {
-    return this.uid==firebase.auth().currentUser.uid
+    if(this.service.loggedIn()){
+      return this.uid==firebase.auth().currentUser.uid
+    }
+    else {
+      return false;
+    }
   }
 }

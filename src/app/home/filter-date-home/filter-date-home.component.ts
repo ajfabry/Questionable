@@ -18,6 +18,15 @@ export class FilterDateHomeComponent implements OnInit {
   ngOnInit() {}
 
   setCutoff(cutOff) {
+    if (cutOff == 0) {
+      this.service.publishEvent({
+        page: "HomePage",
+        sort: cutOff,
+        allTime: true
+      });
+      this.popoverController.dismiss();
+      return;
+    }
     this.service.publishEvent({
       page: "HomePage",
       sort: cutOff

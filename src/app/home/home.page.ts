@@ -5,6 +5,7 @@ import * as firebase from 'firebase';
 import { sum, values } from 'lodash';
 import { PopoverController } from '@ionic/angular';
 import { FilterDateHomeComponent } from './filter-date-home/filter-date-home.component';
+import { SortHomeComponent } from './sort-home/sort-home.component';
 
 @Component({
   selector: 'app-home',
@@ -17,6 +18,7 @@ export class HomePage implements OnInit {
   cutoffDate: Date;
   cutoffDisplay: string;
   toProfile = false;
+  sortBy = "votes";
 
   constructor(
     public router: Router,
@@ -26,7 +28,9 @@ export class HomePage implements OnInit {
   {
     this.service.getObservable().subscribe((data) => {
       if (data.sort != null)
-        this.setCutoff(data.sort);
+        this.setCutoff(data.sort, data.allTime);
+      if (data.sortMethod != null)
+        this.setSort(data.sortMethod);
       if (data.page == "HomePage")
         this.ngOnInit();
     })
@@ -38,7 +42,9 @@ export class HomePage implements OnInit {
 
     let startDate = this.cutoffDate || new Date(Date.now() - 24 * 60 * 60 * 1000);
 
-    if (startDate < new Date(Date.now() - 364 * 24 * 60 * 60 * 1000))
+    if (startDate < new Date(Date.now() - 366 * 24 * 60 * 60 * 1000))
+      this.cutoffDisplay = "all time";
+    else if (startDate < new Date(Date.now() - 364 * 24 * 60 * 60 * 1000))
       this.cutoffDisplay = "past year";
     else if (startDate < new Date(Date.now() - 29 * 24 * 60 * 60 * 1000))
         this.cutoffDisplay = "past month";
@@ -76,8 +82,10 @@ export class HomePage implements OnInit {
   }
 
   sortQuestions() {
-    // TODO: add sort by timestamp (replace property)
-    this.questions.sort((a,b) => b.votes - a.votes);
+    if (this.sortBy == "votes")
+      this.questions.sort((a,b) => b.votes - a.votes);
+    else if (this.sortBy == "date")
+      this.questions.sort((a,b) => b.timestamp - a.timestamp);
   }
 
   refreshQuestions(event) {
@@ -153,7 +161,24 @@ export class HomePage implements OnInit {
     return await popover.present();
   }
 
-  setCutoff(cutoff) {
-    this.cutoffDate = new Date(Date.now() - cutoff);
+  async presentSortPopover(event) {
+    console.log("presenting popover");
+    const popover = await this.popoverController.create({
+      component: SortHomeComponent,
+      event: event,
+      translucent: true
+    });
+    return await popover.present();
+  }
+
+  setCutoff(cutoff, allTime) {
+    if (allTime)
+      this.cutoffDate = new Date("0001-01-01");
+    else
+      this.cutoffDate = new Date(Date.now() - cutoff);
+  }
+
+  setSort(sortMethod) {
+    this.sortBy = sortMethod;
   }
 }

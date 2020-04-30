@@ -5,6 +5,7 @@ import * as firebase from 'firebase';
 import { sum, values } from 'lodash';
 import { PopoverController } from '@ionic/angular';
 import { FilterDateQuestionComponent } from './filter-date-question/filter-date-question.component';
+import { SortQuestionComponent } from './sort-question/sort-question.component';
 
 @Component({
   selector: 'app-question',
@@ -19,6 +20,7 @@ export class QuestionPage implements OnInit {
   toProfile = false;
   cutoffDate: Date;
   cutoffDisplay: string;
+  sortBy = "votes";
 
   constructor (
     private route: ActivatedRoute,
@@ -29,7 +31,9 @@ export class QuestionPage implements OnInit {
   {
     this.service.getObservable().subscribe((data) => {
       if (data.sort != null)
-        this.setCutoff(data.sort);
+        this.setCutoff(data.sort, data.allTime);
+      if (data.sortMethod != null)
+        this.setSort(data.sortMethod);
       if (data.page == "QuestionPage")
         this.ngOnInit();
     })
@@ -49,10 +53,12 @@ export class QuestionPage implements OnInit {
     var self = this;
     let startDate = this.cutoffDate || new Date(Date.now() - 24 * 60 * 60 * 1000);
 
-    if (startDate < new Date(Date.now() - 364 * 24 * 60 * 60 * 1000))
+    if (startDate < new Date(Date.now() - 366 * 24 * 60 * 60 * 1000))
+      this.cutoffDisplay = "all time";
+    else if (startDate < new Date(Date.now() - 364 * 24 * 60 * 60 * 1000))
       this.cutoffDisplay = "past year";
     else if (startDate < new Date(Date.now() - 29 * 24 * 60 * 60 * 1000))
-      this.cutoffDisplay = "past month";
+        this.cutoffDisplay = "past month";
     else if (startDate < new Date(Date.now() - 6 * 24 * 60 * 60 * 1000))
       this.cutoffDisplay = "past week";
     else if (startDate < new Date(Date.now() - 23 * 60 * 60 * 1000))
@@ -90,7 +96,10 @@ export class QuestionPage implements OnInit {
   }
 
   sortAnswers() {
-    this.answers.sort((a,b) => b.votes - a.votes);
+    if (this.sortBy == "votes")
+      this.answers.sort((a,b) => b.votes - a.votes);
+    else if (this.sortBy == "date")
+      this.answers.sort((a,b) => b.timestamp - a.timestamp);
   }
 
   refreshAnswers(event) {
@@ -162,7 +171,24 @@ export class QuestionPage implements OnInit {
     return await popover.present();
   }
 
-  setCutoff(cutoff) {
-    this.cutoffDate = new Date(Date.now() - cutoff);
+  async presentSortPopover(event) {
+    console.log("presenting popover");
+    const popover = await this.popoverController.create({
+      component: SortQuestionComponent,
+      event: event,
+      translucent: true
+    });
+    return await popover.present();
+  }
+
+  setCutoff(cutoff, allTime) {
+    if (allTime)
+      this.cutoffDate = new Date("0001-01-01");
+    else
+      this.cutoffDate = new Date(Date.now() - cutoff);
+  }
+
+  setSort(sortMethod) {
+    this.sortBy = sortMethod;
   }
 }

@@ -10,6 +10,7 @@ import { QuestionPage } from './question.page';
 
 import { ComponentsModule } from '../components/components.module';
 import { FilterDateQuestionComponent } from './filter-date-question/filter-date-question.component';
+import { SortQuestionComponent } from './sort-question/sort-question.component';
 import { HomePage } from '../home/home.page';
 
 @NgModule({
@@ -20,8 +21,8 @@ import { HomePage } from '../home/home.page';
     QuestionPageRoutingModule,
     ComponentsModule
   ],
-  entryComponents: [FilterDateQuestionComponent],
-  declarations: [QuestionPage, FilterDateQuestionComponent],
+  entryComponents: [FilterDateQuestionComponent, SortQuestionComponent],
+  declarations: [QuestionPage, FilterDateQuestionComponent, SortQuestionComponent],
   providers: [HomePage]
 })
 export class QuestionPageModule {}
