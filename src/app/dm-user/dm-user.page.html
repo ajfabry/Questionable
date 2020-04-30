@@ -37,14 +37,12 @@
 </ion-content>
 
 <ion-footer>
-  <ion-grid>
-    <ion-row>
-      <ion-col col-10>
-        <ion-input type="text" placeholder="Type a message" [(ngModel)]="data.message" name="message"></ion-input>
-      </ion-col>
-      <ion-col col-2 (click)="sendMessage()">
-        <ion-icon name="paper-plane"></ion-icon>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <ion-toolbar>
+    <ion-item>
+      <ion-input type="text" placeholder="Type a message" [(ngModel)]="data.message" name="message" (keyup.enter)="sendMessage()"></ion-input>
+        <ion-button item-right color="#C9EDE7" (click)="sendMessage()">
+          <ion-icon name="paper-plane"></ion-icon>
+        </ion-button>
+    </ion-item>
+  </ion-toolbar>
 </ion-footer>
