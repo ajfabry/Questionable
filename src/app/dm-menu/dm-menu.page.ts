@@ -36,12 +36,19 @@ export class DmMenuPage implements OnInit {
           self.chats = [];
           conversationList.forEach(doc => {
             let conversation = doc.data();
-            if(conversation.UserA==this.user){
-              self.chats.push({username:conversation.UserB,pChatName:conversation.roomName});
-            }
-            else{
-              self.chats.push({username:conversation.UserA,pChatName:conversation.roomName});
-            }
+            this.service.db.collection("chats").doc(conversation.roomName).onSnapshot(chatRoom => {
+              let messages = [];
+              chatRoom.data().messages.forEach(messageInfo => {
+                messages.push(messageInfo.message);
+              })
+              let mrMessage = messages[messages.length-1];
+              if(conversation.UserA==this.user){
+                self.chats.push({username:conversation.UserB,pChatName:conversation.roomName,mrMessage:mrMessage});
+              }
+              else{
+                self.chats.push({username:conversation.UserA,pChatName:conversation.roomName,mrMessage:mrMessage});
+              }
+            })
           })
           this.chats = self.chats;
           //this.user = self.user;

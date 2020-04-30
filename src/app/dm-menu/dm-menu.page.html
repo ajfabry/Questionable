@@ -18,7 +18,12 @@
   </ion-refresher>
   <ion-list>
     <ion-item *ngFor="let chat of chats" (click)="goToChat(chat)">
-      {{chat.username}}
+      <ion-label>
+        <h2 class="user-info">
+          <b>{{ chat.username }}</b>
+        </h2>
+        <h6 class="ion-text-wrap">{{ chat.mrMessage }}</h6>
+      </ion-label>
     </ion-item>
   </ion-list>
 </ion-content>
