@@ -41,13 +41,34 @@ export class DmMenuPage implements OnInit {
               chatRoom.data().messages.forEach(messageInfo => {
                 messages.push(messageInfo.message);
               })
+              let prevMess = messages[messages.length-1];
               let mrMessage = messages[messages.length-1];
+              if (self.chats.some(e => e.pChatName === conversation.roomName)) {
+                let index = self.chats.indexOf({username:conversation.UserB,pChatName:conversation.roomName,mrMessage:prevMess});
+                self.chats.splice(index,1);
+              }
               if(conversation.UserA==this.user){
                 self.chats.push({username:conversation.UserB,pChatName:conversation.roomName,mrMessage:mrMessage});
+                
+                // let data = {username:conversation.UserB,pChatName:conversation.roomName,mrMessage:mrMessage};
+                // console.log(self.chats.includes(data));
+                // if(self.chats.includes({username:conversation.UserB,pChatName:conversation.roomName,mrMessage:prevMess})){
+                  
+                //   let index = self.chats.indexOf({username:conversation.UserB,pChatName:conversation.roomName,mrMessage:prevMess});
+                //   self.chats.slice(index,index+1);
+                // }
               }
               else{
                 self.chats.push({username:conversation.UserA,pChatName:conversation.roomName,mrMessage:mrMessage});
+                // let data = {username:conversation.UserA,pChatName:conversation.roomName,mrMessage:mrMessage};
+                // console.log(self.chats.includes(data));
+                // if(self.chats.includes({username:conversation.UserA,pChatName:conversation.roomName,mrMessage:prevMess})){
+                //   console.log(self.chats.includes({username:conversation.UserA,pChatName:conversation.roomName,mrMessage:mrMessage}));
+                //   let index = self.chats.indexOf({username:conversation.UserA,pChatName:conversation.roomName,mrMessage:prevMess});
+                //   self.chats.slice(index,index+1);
+                // }
               }
+              
             })
           })
           this.chats = self.chats;
