@@ -7,7 +7,7 @@
       <b>{{this.username}}'s Profile:</b>
     </ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="logout()">
+      <ion-button *ngIf="isThisYou()" (click)="logout()">
         <ion-icon name="log-out-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -44,6 +44,9 @@
 </ion-content>
 
 <ion-footer>
+  <ion-toolbar>
+    <ion-button color="q-green" expand="block" (click)="follow()">Follow</ion-button>
+  </ion-toolbar>
   <ion-toolbar>
     <ion-button color="q-green" *ngIf="!isThisYou()" expand="block" (click)="message()">Message</ion-button>
   </ion-toolbar>
