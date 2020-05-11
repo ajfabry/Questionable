@@ -45,7 +45,8 @@
 
 <ion-footer>
   <ion-toolbar>
-    <ion-button color="q-green" expand="block" (click)="follow()">Follow</ion-button>
+    <ion-button color="q-green" *ngIf="!isFollowing()" expand="block" (click)="follow()">Follow</ion-button>
+    <ion-button color="q-gray" *ngIf="isFollowing()" expand="block" (click)="unfollow()">Following</ion-button>
   </ion-toolbar>
   <ion-toolbar>
     <ion-button color="q-green" *ngIf="!isThisYou()" expand="block" (click)="message()">Message</ion-button>

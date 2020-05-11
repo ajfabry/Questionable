@@ -15,6 +15,8 @@ export class ProfilePagePage implements OnInit {
   uid;
   totalUpvotes = 0;
   posts:Array<any>;
+  isfollowing=false;
+  followingId;
 
   constructor(
     private route: ActivatedRoute,
@@ -32,6 +34,7 @@ export class ProfilePagePage implements OnInit {
     this.loadUsername(this.uid);
     //this.username = this.loadUsername();
     console.log("This should run after the getUsername function");
+    this.setFollowingVal(this.uid);
     //this.numPosts = 20;
   }
   
@@ -155,6 +158,24 @@ export class ProfilePagePage implements OnInit {
     
   }
 
+  follow() {
+    if(this.service.loggedIn()){
+      var currUid = firebase.auth().currentUser.uid
+      this.service.db.collection("username").doc(currUid).collection("following").add({
+        "uid": this.uid
+      })
+      this.isfollowing = true
+    }
+  }
+
+  unfollow() {
+    if(this.service.loggedIn()){
+      var currUid = firebase.auth().currentUser.uid
+      this.service.db.collection("username").doc(currUid).collection("following").doc(this.followingId).delete()
+      this.isfollowing = false
+    }
+  }
+
   logout() {
     firebase.auth().signOut();
     console.log("Logged out");
@@ -168,6 +189,31 @@ export class ProfilePagePage implements OnInit {
     else {
       return false;
     }
+  }
+
+  setFollowingVal(uid) {
+    var self = this;
+    if(this.service.loggedIn()){
+      var currUid = firebase.auth().currentUser.uid
+      console.log("The id: " + currUid);
+      this.service.db.collection("username").doc(currUid).collection("following").onSnapshot(function(querySnapshot) {
+        // console.log("DOes this even run?");
+        querySnapshot.forEach(function(doc) {
+          // console.log(doc.data().uid);
+          // console.log(uid);
+          if(uid == doc.data().uid){
+            self.followingId = doc.id
+            self.isfollowing = true
+          }
+        });
+      });
+      this.followingId = self.followingId
+      this.isfollowing = self.isfollowing
+    }
+  }
+
+  isFollowing() {
+    return this.isfollowing
   }
 
   goToQuestion(question) {
