@@ -52,6 +52,7 @@ export class LoginPage implements OnInit {
       console.log(error);
     }).then(function(result){
       self.service.publishEvent({page: "HomePage"});
+      self.service.publishEvent({page: "FollowingPage"});
       self.router.navigate(["../tabs/home"]);
     });
   }

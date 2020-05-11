@@ -41,6 +41,10 @@ const routes: Routes = [
   {
     path: 'local',
     loadChildren: () => import('./local/local.module').then( m => m.LocalPageModule)
+  },
+  {
+    path: 'following-questions',
+    loadChildren: () => import('./following-questions/following-questions.module').then( m => m.FollowingQuestionsPageModule)
   }
 ];
 @NgModule({

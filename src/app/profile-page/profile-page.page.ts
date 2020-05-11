@@ -51,6 +51,7 @@ export class ProfilePagePage implements OnInit {
       //var totalUpvotes=0;
       querySnapshot.forEach(function(doc) {
         var item = doc.data();
+        //console.log("Length" + item.path.length);
         var post = {question: "", timestamp: null, votes: 0, id: doc.ref.id, path: item.path}
       
         self.service.db.doc(item.path).get().then(data=> {
@@ -165,6 +166,7 @@ export class ProfilePagePage implements OnInit {
         "uid": this.uid
       })
       this.isfollowing = true
+      this.service.publishEvent({page: "FollowingPage"});
     }
   }
 
@@ -173,12 +175,14 @@ export class ProfilePagePage implements OnInit {
       var currUid = firebase.auth().currentUser.uid
       this.service.db.collection("username").doc(currUid).collection("following").doc(this.followingId).delete()
       this.isfollowing = false
+      this.service.publishEvent({page: "FollowingPage"});
     }
   }
 
   logout() {
     firebase.auth().signOut();
     console.log("Logged out");
+    this.service.publishEvent({page: "FollowingPage"});
     this.router.navigate(['/login']);
   }
 
