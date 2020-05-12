@@ -68,9 +68,11 @@ export class ProfilePagePage implements OnInit {
         var votes;
         self.getQuestionVotes(path).get().then(upvotes => {
           post.votes = sum(values(upvotes.data()));
-          self.posts.push(post);
-          console.log(post);
-          self.addToVotes(post.votes);
+          if(post.question.length>0){
+            self.posts.push(post);
+            console.log(post);
+            self.addToVotes(post.votes);
+          }
         });
       });
       this.posts = self.posts;
