@@ -59,6 +59,7 @@ export class LoginPage implements OnInit {
 
   guestLogin() {
     this.service.publishEvent({page: "HomePage"});
+    this.service.publishEvent({page: "FollowingPage"});
 	  this.router.navigate(["../tabs/home"]);
   }
 
